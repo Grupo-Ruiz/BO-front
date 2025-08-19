@@ -1,0 +1,33 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependencias y builds
+node_modules/
+dist/
+build/
+
+# Archivos de entorno y configuración local
+.env
+.env.*
+.vscode/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Salida de tests
+coverage/
+
+# Archivos de producción de Vite
+*.local
+
+# Otros
+.idea/
+*.sublime-workspace
+*.sublime-project
