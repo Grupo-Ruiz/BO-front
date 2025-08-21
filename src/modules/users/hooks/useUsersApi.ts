@@ -1,69 +1,48 @@
-import { useState, useEffect } from 'react';
-import { UserService } from '../services/UserService';
-import type { User, UserFilters, CreateUserData, UpdateUserData } from '../types';
+import { useState, useCallback, useEffect } from 'react';
+import type { User, UserFilters } from '../types';
 
 export function useUsersApi(initialFilters?: UserFilters) {
   const [users, setUsers] = useState<User[]>([]);
+  const [meta, setMeta] = useState<{ total: number; page: number; pageSize: number }>({ total: 0, page: 0, pageSize: 0 });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [lastFetch, setLastFetch] = useState<number>(0);
 
-  const fetchUsers = async (filters: UserFilters = {}) => {
+  // Llama a la API real
+  const fetchUsers = useCallback(async (filters: UserFilters = {}) => {
+    setIsLoading(true);
+    setError(null);
     try {
-      setIsLoading(true);
-      setError(null);
-      const users = await UserService.getUsers(filters);
-      setUsers(users);
+      const params = new URLSearchParams(filters as any).toString();
+      const res = await fetch(`http://127.0.0.1:5000/api/v1/usuarios/users?${params}`);
+      if (!res.ok) throw new Error('Error al cargar usuarios');
+      const { data, meta } = await res.json();
+
+      setUsers(data);
+      setMeta(meta);
+      setLastFetch(Date.now());
+
     } catch (err: any) {
       setError(err.message || 'Error al cargar usuarios');
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
-  const createUser = async (userData: CreateUserData): Promise<boolean> => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      const newUser = await UserService.createUser(userData);
-      setUsers(prev => [newUser, ...prev]);
-      return true;
-    } catch (err: any) {
-      setError(err.message || 'Error al crear usuario');
-      return false;
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
-  const updateUser = async (id: string, userData: UpdateUserData): Promise<boolean> => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      const updatedUser = await UserService.updateUser(id, userData);
-      setUsers(prev => prev.map(user => user.id === id ? updatedUser : user));
-      return true;
-    } catch (err: any) {
-      setError(err.message || 'Error al actualizar usuario');
-      return false;
-    } finally {
-      setIsLoading(false);
+  // Memoización: solo consulta si pasaron más de 10 segundos
+  const getUsers = useCallback((filters: UserFilters = {}) => {
+    const now = Date.now();
+    if (now - lastFetch > 10000) {
+      fetchUsers(filters);
     }
-  };
+    // Si no, no hace nada (o puedes devolver los datos actuales)
+  }, [lastFetch, fetchUsers]);
 
-  const deleteUser = async (id: string): Promise<boolean> => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      await UserService.deleteUser(id);
-      setUsers(prev => prev.filter(user => user.id !== id));
-      return true;
-    } catch (err: any) {
-      setError(err.message || 'Error al eliminar usuario');
-      return false;
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  // Forzar refresco inmediato
+  const refetch = useCallback((filters: UserFilters = {}) => {
+    fetchUsers(filters);
+  }, [fetchUsers]);
 
   useEffect(() => {
     if (initialFilters) {
@@ -71,14 +50,15 @@ export function useUsersApi(initialFilters?: UserFilters) {
     } else {
       fetchUsers();
     }
-  }, []);
+  }, [fetchUsers, initialFilters]);
 
   return {
+    users,
+    meta,
     isLoading,
     error,
-    fetchUsers,
-    createUser,
-    updateUser,
-    deleteUser,
+    getUsers,
+    refetch,
+    lastFetch,
   };
 }

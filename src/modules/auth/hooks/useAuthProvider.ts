@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { loginWithApi, logoutWithApi, fromApiUser } from '../services/authService';
+import { loginWithApi, logoutWithApi } from '../services/authService';
 import { STORAGE_KEYS } from '../../../shared/config/api';
 import type { AuthUser, LoginCredentials, AuthContextType } from '../types';
 
@@ -33,8 +33,7 @@ export function useAuthProvider(): AuthContextType {
     try {
       const result = await loginWithApi(credentials);
       if (result.success && result.data) {
-        const user = fromApiUser(result.data);
-        return { success: true, user };
+        return { success: true, user: result.data as AuthUser };
       }
       return { success: false };
     } catch (error) {
@@ -64,9 +63,7 @@ export function useAuthProvider(): AuthContextType {
 
   const logout = async () => {
     try {
-      if (user?.id) {
-        await logoutWithApi(parseInt(user.id));
-      }
+      await logoutWithApi();
     } catch (error) {
       console.error('Error during logout:', error);
     } finally {

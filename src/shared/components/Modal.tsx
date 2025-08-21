@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { XMarkIcon } from '@heroicons/react/24/outline';
+import { HiOutlineXMark } from 'react-icons/hi2';
 
 interface ModalProps {
   isOpen: boolean;
@@ -51,7 +51,7 @@ export function Modal({
                   onClick={onClose}
                   className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
                 >
-                  <XMarkIcon className="h-6 w-6" />
+                  <HiOutlineXMark className="h-6 w-6" />
                 </button>
               )}
             </div>

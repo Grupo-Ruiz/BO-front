@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { UserProvider } from '../modules/users';
+
 import { ClientProvider } from '../modules/clients';
 
 interface ModuleProvidersProps {
@@ -12,10 +12,8 @@ interface ModuleProvidersProps {
  */
 export function ModuleProviders({ children }: ModuleProvidersProps) {
   return (
-    <UserProvider>
-      <ClientProvider>
-        {children}
-      </ClientProvider>
-    </UserProvider>
+    <ClientProvider>
+      {children}
+    </ClientProvider>
   );
 }

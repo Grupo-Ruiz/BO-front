@@ -46,62 +46,6 @@ export function useServices() {
 }
 
 /**
- * Hook especializado para usuarios
- */
-export function useUsers() {
-  const [users, setUsers] = useState<any[]>([]);
-  const { executeService, loading, error, clearError } = useServices();
-
-  const loadUsers = useCallback(async (filters?: any) => {
-    const result = await executeService(
-      () => Services.users.getAll(filters),
-      (data) => setUsers(data as any[])
-    );
-    return result;
-  }, [executeService]);
-
-  const loadUsersPaginated = useCallback(async (params?: any) => {
-    return await executeService(
-      () => Services.users.getPaginated(params)
-    );
-  }, [executeService]);
-
-  const createUser = useCallback(async (userData: any) => {
-    return await executeService(
-      () => Services.users.create(userData),
-      () => loadUsers() // Recargar usuarios después de crear
-    );
-  }, [executeService, loadUsers]);
-
-  const updateUser = useCallback(async (id: string, userData: any) => {
-    return await executeService(
-      () => Services.users.update(id, userData),
-      () => loadUsers() // Recargar usuarios después de actualizar
-    );
-  }, [executeService, loadUsers]);
-
-  const deleteUser = useCallback(async (id: string) => {
-    return await executeService(
-      () => Services.users.delete(id),
-      () => loadUsers() // Recargar usuarios después de eliminar
-    );
-  }, [executeService, loadUsers]);
-
-  return {
-    users,
-    setUsers,
-    loading,
-    error,
-    clearError,
-    loadUsers,
-    loadUsersPaginated,
-    createUser,
-    updateUser,
-    deleteUser
-  };
-}
-
-/**
  * Hook especializado para clientes
  */
 export function useClients() {
@@ -116,12 +60,7 @@ export function useClients() {
     return result;
   }, [executeService]);
 
-  const loadClientsPaginated = useCallback(async (params?: any) => {
-    return await executeService(
-      () => Services.clients.getPaginated(params)
-    );
-  }, [executeService]);
-
+  // Métodos reales según ClientsApiService
   const createClient = useCallback(async (clientData: any) => {
     return await executeService(
       () => Services.clients.create(clientData),
@@ -143,9 +82,9 @@ export function useClients() {
     );
   }, [executeService, loadClients]);
 
-  const updateClientBalance = useCallback(async (clientId: string, amount: number, operation: 'add' | 'subtract') => {
+  const updateClientBalance = useCallback(async (clientId: string, amount: number) => {
     return await executeService(
-      () => Services.clients.updateBalance(clientId, amount, operation),
+      () => Services.clients.updateClientBalance(clientId, amount),
       () => loadClients() // Recargar clientes después de actualizar balance
     );
   }, [executeService, loadClients]);
@@ -157,7 +96,6 @@ export function useClients() {
     error,
     clearError,
     loadClients,
-    loadClientsPaginated,
     createClient,
     updateClient,
     deleteClient,
@@ -194,9 +132,9 @@ export function useOperations() {
     );
   }, [executeService, loadOperations]);
 
-  const cancelOperation = useCallback(async (id: string, reason?: string) => {
+  const cancelOperation = useCallback(async (id: string) => {
     return await executeService(
-      () => Services.operations.cancel(id, reason),
+      () => Services.operations.cancel(id),
       () => loadOperations() // Recargar operaciones después de cancelar
     );
   }, [executeService, loadOperations]);
@@ -250,9 +188,9 @@ export function usePayments() {
     );
   }, [executeService, loadPayments]);
 
-  const refundPayment = useCallback(async (id: string, reason?: string) => {
+  const refundPayment = useCallback(async (id: string) => {
     return await executeService(
-      () => Services.payments.refund(id, reason),
+      () => Services.payments.refund(id),
       () => loadPayments() // Recargar pagos después de reembolso
     );
   }, [executeService, loadPayments]);
@@ -298,9 +236,9 @@ export function useWallet() {
   const [transactions, setTransactions] = useState<any[]>([]);
   const { executeService, loading, error, clearError } = useServices();
 
-  const loadTransactions = useCallback(async (clientId: string, filters?: any) => {
+  const loadTransactions = useCallback(async (filters?: any) => {
     const result = await executeService(
-      () => Services.wallet.getTransactions(clientId, filters),
+      () => Services.wallet.getAllTransactions(filters),
       (data) => setTransactions(data as any[])
     );
     return result;
@@ -328,22 +266,24 @@ export function useWallet() {
   }, [executeService, transactions, loadTransactions]);
 
   const processDeposit = useCallback(async (depositData: any) => {
+    const { clientId, amount, currency, description } = depositData;
     return await executeService(
-      () => Services.wallet.deposit(depositData),
+      () => Services.wallet.deposit(clientId, amount, currency, description),
       () => {
-        if (depositData.clientId) {
-          loadTransactions(depositData.clientId);
+        if (clientId) {
+          loadTransactions({ clientId });
         }
       }
     );
   }, [executeService, loadTransactions]);
 
   const processWithdrawal = useCallback(async (withdrawalData: any) => {
+    const { clientId, amount, currency, description } = withdrawalData;
     return await executeService(
-      () => Services.wallet.withdraw(withdrawalData),
+      () => Services.wallet.withdrawal(clientId, amount, currency, description),
       () => {
-        if (withdrawalData.clientId) {
-          loadTransactions(withdrawalData.clientId);
+        if (clientId) {
+          loadTransactions({ clientId });
         }
       }
     );
@@ -375,10 +315,10 @@ export function useDashboard() {
     const result = await executeService(
       async () => {
         const [users, clients, operations, payments, walletBalance] = await Promise.all([
-          Services.users.getAll({ per_page: 5 }),
-          Services.clients.getAll({ status: 'active', per_page: 10 }),
-          Services.operations.getAll({ per_page: 10 }),
-          Services.payments.getAll({ status: 'completed', per_page: 10 }),
+          Services.users.getUsers({}),
+          Services.clients.getAll({ status: 'active' }),
+          Services.operations.getAll({}),
+          Services.payments.getAll({ status: 'completed' }),
           clientId ? Services.wallet.getBalance(clientId) : Promise.resolve(null)
         ]);
 

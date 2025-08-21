@@ -1,59 +1,33 @@
-import { BellIcon, UserCircleIcon, ArrowRightOnRectangleIcon, ShieldCheckIcon, UserIcon, Bars3Icon } from '@heroicons/react/24/outline';
-import { useAuth } from '../../modules/auth';
-import { useUserModal } from '../contexts/UserModalContext';
+import { HiOutlineBell, HiOutlineUserCircle, HiOutlineArrowRightOnRectangle, HiOutlineBars3 } from 'react-icons/hi2';
 import ThemeToggle from './ThemeToggle';
+import { useHeader } from '../hooks/useHeader';
+import type { HeaderProps } from '../types/types';
 
-interface HeaderProps {
-  sidebarOpen?: boolean;
-  setSidebarOpen?: (open: boolean) => void;
-}
-
-export default function Header({ sidebarOpen, setSidebarOpen }: HeaderProps) {
-  const { user, logout } = useAuth();
-  const { openModal } = useUserModal();
-
-  const handleLogout = () => {
-    logout();
-  };
-
-  const handleProfileClick = () => {
-    if (user) {
-      // Convertir AuthUser a User para el modal
-      const userForModal: import('../../modules/users/types').User = {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        phone: '', // El AuthUser no tiene phone, usar string vacío
-        role: user.role,
-        status: 'active', // Asumir activo para usuarios autenticados
-        createdAt: new Date().toISOString(), // Valor por defecto
-        updatedAt: new Date().toISOString(), // Valor por defecto
-      };
-      openModal('view', userForModal);
-    }
-  };
-
-  const handleSidebarToggle = () => {
-    if (setSidebarOpen) {
-      setSidebarOpen(!sidebarOpen);
-    }
-  };
+export function Header({ sidebarOpen, setSidebarOpen }: HeaderProps) {
+  const {
+    user,
+    handleLogout,
+    handleProfileClick,
+    handleSidebarToggle,
+    sidebarOpen: sidebarOpenProp,
+    setSidebarOpen: setSidebarOpenProp,
+  } = useHeader({ sidebarOpen, setSidebarOpen });
 
   return (
     <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8 dark:border-gray-700 dark:bg-gray-900">
       {/* Botón hamburguesa para móvil/tablet - Mejorado */}
-      {setSidebarOpen && (
+      {setSidebarOpenProp && (
         <button
           type="button"
           className="relative -m-2.5 p-2.5 text-gray-500 hover:text-gray-900 lg:hidden dark:text-gray-400 dark:hover:text-white transition-all duration-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500 group"
           onClick={handleSidebarToggle}
-          aria-label={sidebarOpen ? "Cerrar menú de navegación" : "Abrir menú de navegación"}
-          title={sidebarOpen ? "Cerrar menú" : "Abrir menú"}
+          aria-label={sidebarOpenProp ? "Cerrar menú de navegación" : "Abrir menú de navegación"}
+          title={sidebarOpenProp ? "Cerrar menú" : "Abrir menú"}
         >
           <div className="relative">
-            <Bars3Icon 
+            <HiOutlineBars3 
               className={`h-6 w-6 transition-all duration-200 ${
-                sidebarOpen ? 'rotate-90 opacity-0' : 'rotate-0 opacity-100'
+                sidebarOpenProp ? 'rotate-90 opacity-0' : 'rotate-0 opacity-100'
               }`} 
               aria-hidden="true" 
             />
@@ -61,7 +35,7 @@ export default function Header({ sidebarOpen, setSidebarOpen }: HeaderProps) {
           </div>
           
           {/* Indicador visual cuando está activo */}
-          {sidebarOpen && (
+          {sidebarOpenProp && (
             <span className="absolute -top-1 -right-1 h-2 w-2 bg-primary-500 rounded-full animate-pulse"></span>
           )}
         </button>
@@ -91,7 +65,7 @@ export default function Header({ sidebarOpen, setSidebarOpen }: HeaderProps) {
             aria-label="Ver notificaciones"
             title="Ver notificaciones"
           >
-            <BellIcon className="h-5 w-5" aria-hidden="true" />
+            <HiOutlineBell className="h-5 w-5" aria-hidden="true" />
           </button>
 
           {/* Separator */}
@@ -106,31 +80,12 @@ export default function Header({ sidebarOpen, setSidebarOpen }: HeaderProps) {
               title="Ver perfil"
             >
               <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800">
-                <UserCircleIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" aria-hidden="true" />
+                <HiOutlineUserCircle className="h-5 w-5 text-gray-500 dark:text-gray-400" aria-hidden="true" />
               </div>
               <div className="hidden sm:flex sm:flex-col text-left">
                 <span className="text-sm font-semibold leading-6 text-gray-900 dark:text-white">
                   {user?.name || 'Usuario'}
                 </span>
-                {user && (
-                  <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-                    user.role === 'admin' 
-                      ? 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300' 
-                      : 'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300'
-                  }`}>
-                    {user.role === 'admin' ? (
-                      <>
-                        <ShieldCheckIcon className="h-3 w-3 mr-1" />
-                        Administrador
-                      </>
-                    ) : (
-                      <>
-                        <UserIcon className="h-3 w-3 mr-1" />
-                        Operador
-                      </>
-                    )}
-                  </span>
-                )}
               </div>
             </button>
             
@@ -141,11 +96,12 @@ export default function Header({ sidebarOpen, setSidebarOpen }: HeaderProps) {
               aria-label="Cerrar sesión"
               title="Cerrar sesión"
             >
-              <ArrowRightOnRectangleIcon className="h-5 w-5" />
+              <HiOutlineArrowRightOnRectangle className="h-5 w-5" />
             </button>
           </div>
         </div>
       </div>
     </div>
+
   );
 }

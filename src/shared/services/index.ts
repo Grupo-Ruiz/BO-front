@@ -1,3 +1,8 @@
+// Imports directos para el objeto Services
+import { ClientsApiService } from '../../modules/clients';
+import { OperationsService } from '../../modules/operations';
+import { PaymentsService } from '../../modules/payments';
+import { WalletService } from '../../modules/wallet';
 /**
  * Índice central de servicios de la aplicación
  * 
@@ -10,22 +15,6 @@
  * O importar un servicio específico:
  * import { UsersApiService } from '@/modules/users';
  */
-
-// Re-exportar servicios por módulo con paths corregidos
-export { 
-  UsersApiService,
-  getAllUsers,
-  getUserById,
-  createUser,
-  updateUser,
-  deleteUser,
-  getUsersPaginated,
-  searchUsers,
-  getRoles,
-  getHeadquarters,
-  mapApiUserToUser 
-} from '../../modules/users';
-
 export { 
   ClientService,
   ClientsApiService,
@@ -93,18 +82,9 @@ export type {
   ApiResponse, 
   ApiPaginatedResponse, 
   BaseFilters 
-} from '../types/ServiceTypes';
+} from '../types/types';
 
-/**
- * Objeto con todos los servicios agrupados por módulo
- * 
- * Uso:
- * import { Services } from '@/shared/services';
- * const users = await Services.users.getAll();
- * const clients = await Services.clients.getAll();
- */
 export const Services = {
-  users: UsersApiService,
   clients: ClientsApiService,
   operations: OperationsService,
   payments: PaymentsService,

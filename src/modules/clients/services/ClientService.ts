@@ -1,4 +1,4 @@
-import { BaseService } from '../../../shared/services/BaseService';
+
 import type { Client, CreateClientData, UpdateClientData, ClientFilters } from '../types';
 
 // Mock data para clientes

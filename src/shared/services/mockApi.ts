@@ -1,4 +1,5 @@
-import type { User, WalletOperation, Payment, Operation, SAEOperation, FAQ, KPI } from '../types';
+import type { User } from '../../modules/users/types';
+import type { WalletOperation, Payment, Operation, SAEOperation, FAQ, KPI } from "../types/types";
 
 // Mock data generators
 const generateMockUsers = (): User[] => {
@@ -10,6 +11,7 @@ const generateMockUsers = (): User[] => {
       phone: '+34 600 123 456',
       status: 'active',
       createdAt: '2024-01-15T10:30:00Z',
+      updatedAt: '2024-02-01T10:30:00Z',
       walletBalance: 25.50,
       userType: 'premium'
     },
@@ -20,6 +22,7 @@ const generateMockUsers = (): User[] => {
       phone: '+34 600 789 012',
       status: 'active',
       createdAt: '2024-02-01T14:20:00Z',
+      updatedAt: '2024-02-10T14:20:00Z',
       walletBalance: 12.75,
       userType: 'regular'
     },
@@ -30,6 +33,7 @@ const generateMockUsers = (): User[] => {
       phone: '+34 600 345 678',
       status: 'inactive',
       createdAt: '2024-01-28T09:15:00Z',
+      updatedAt: '2024-02-15T09:15:00Z',
       walletBalance: 0.00,
       userType: 'regular'
     },
@@ -40,6 +44,7 @@ const generateMockUsers = (): User[] => {
       phone: '+34 600 901 234',
       status: 'active',
       createdAt: '2024-02-10T16:45:00Z',
+      updatedAt: '2024-02-18T16:45:00Z',
       walletBalance: 45.20,
       userType: 'premium'
     }
@@ -54,9 +59,8 @@ const generateMockWalletOperations = (): WalletOperation[] => {
       userName: 'María García',
       type: 'recharge',
       amount: 20.00,
-      description: 'Recarga de monedero',
-      timestamp: '2024-02-15T10:30:00Z',
-      status: 'completed'
+      date: '2024-02-15',
+      timestamp: '2024-02-15T10:30:00Z'
     },
     {
       id: '2',
@@ -64,9 +68,8 @@ const generateMockWalletOperations = (): WalletOperation[] => {
       userName: 'Juan López',
       type: 'payment',
       amount: -2.50,
-      description: 'Compra billete sencillo',
-      timestamp: '2024-02-15T11:15:00Z',
-      status: 'completed'
+      date: '2024-02-15',
+      timestamp: '2024-02-15T11:15:00Z'
     },
     {
       id: '3',
@@ -74,9 +77,8 @@ const generateMockWalletOperations = (): WalletOperation[] => {
       userName: 'Carlos Rodríguez',
       type: 'recharge',
       amount: 50.00,
-      description: 'Recarga de monedero',
-      timestamp: '2024-02-15T09:20:00Z',
-      status: 'completed'
+      date: '2024-02-15',
+      timestamp: '2024-02-15T09:20:00Z'
     }
   ];
 };
@@ -89,8 +91,7 @@ const generateMockPayments = (): Payment[] => {
       userName: 'María García',
       amount: 20.00,
       method: 'card',
-      description: 'Recarga monedero',
-      timestamp: '2024-02-15T10:30:00Z',
+      date: '2024-02-15',
       status: 'completed',
       reference: 'PAY-001-2024'
     },
@@ -100,8 +101,7 @@ const generateMockPayments = (): Payment[] => {
       userName: 'Carlos Rodríguez',
       amount: 50.00,
       method: 'transfer',
-      description: 'Recarga monedero',
-      timestamp: '2024-02-15T09:20:00Z',
+      date: '2024-02-15',
       status: 'completed',
       reference: 'PAY-002-2024'
     },
@@ -111,8 +111,7 @@ const generateMockPayments = (): Payment[] => {
       userName: 'Juan López',
       amount: 15.00,
       method: 'card',
-      description: 'Recarga monedero',
-      timestamp: '2024-02-14T16:45:00Z',
+      date: '2024-02-14',
       status: 'pending',
       reference: 'PAY-003-2024'
     }
@@ -125,29 +124,24 @@ const generateMockOperations = (): Operation[] => {
       id: '1',
       userId: '1',
       userName: 'María García',
-      type: 'ticket_purchase',
       description: 'Compra billete sencillo - Línea 1',
-      amount: 2.50,
-      timestamp: '2024-02-15T12:30:00Z',
+      date: '2024-02-15',
       status: 'completed'
     },
     {
       id: '2',
       userId: '2',
       userName: 'Juan López',
-      type: 'subscription',
       description: 'Recarga abono mensual',
-      amount: 35.00,
-      timestamp: '2024-02-15T11:15:00Z',
+      date: '2024-02-15',
       status: 'completed'
     },
     {
       id: '3',
       userId: '4',
       userName: 'Carlos Rodríguez',
-      type: 'qr_scan',
       description: 'Validación QR - Estación Central',
-      timestamp: '2024-02-15T08:45:00Z',
+      date: '2024-02-15',
       status: 'completed'
     }
   ];
@@ -157,6 +151,8 @@ const generateMockSAEOperations = (): SAEOperation[] => {
   return [
     {
       id: '1',
+      operationType: 'Recarga',
+      date: '2024-02-15',
       userId: '1',
       userName: 'María García',
       type: 'subscription_recharge',
@@ -168,6 +164,8 @@ const generateMockSAEOperations = (): SAEOperation[] => {
     },
     {
       id: '2',
+      operationType: 'Boleto',
+      date: '2024-02-15',
       userId: '2',
       userName: 'Juan López',
       type: 'single_ticket',
@@ -179,6 +177,8 @@ const generateMockSAEOperations = (): SAEOperation[] => {
     },
     {
       id: '3',
+      operationType: 'QR',
+      date: '2024-02-15',
       userId: '4',
       userName: 'Carlos Rodríguez',
       type: 'qr_generation',

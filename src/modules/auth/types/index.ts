@@ -19,14 +19,7 @@ export interface UseLoginFormProps {
 export interface ProtectedRouteProps {
   children: React.ReactNode;
 }
-export interface PermissionGuardProps {
-  children: React.ReactNode;
-  permission?: string;
-  permissions?: string[];
-  requireAll?: boolean;
-  role?: 'admin' | 'operator';
-  fallback?: React.ReactNode;
-}
+
 
 export interface LoginFormProps {
   onSubmit: (credentials: LoginCredentials) => Promise<boolean>;
@@ -37,8 +30,6 @@ export interface AuthUser {
   id: string;
   email: string;
   name: string;
-  role: 'admin' | 'operator';
-  permissions: string[];
   companyId: string;
   company?: Company;
 }

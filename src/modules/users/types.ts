@@ -1,83 +1,75 @@
-// Estructura de datos de la API de Recaudadora
-export interface ApiUser {
-  id: number;
-  name: string;
+// Tipos para el UserModal y su lógica
+export interface UserModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSave?: () => void;
+  user?: User | null;
+  mode: 'create' | 'edit' | 'view';
+}
+
+// Solo los campos editables en el formulario
+export interface UserFormData {
+  nombre: string;
+  apellidos: string;
   email: string;
-  email_verified_at?: string;
-  role_id: number;
-  sede_id?: number;
-  created_at: string;
-  updated_at: string;
-  role?: {
-    id: number;
-    nombre: string;
-    created_at: string;
-    updated_at: string;
-  };
-  headquarter?: {
-    id: number;
-    nombre: string;
-    direccion: string;
-    created_at: string;
-    updated_at: string;
-  };
+  telefono: string;
+  activo: boolean;
 }
 
-export interface ApiRole {
-  id: number;
-  nombre: string;
-  created_at: string;
-  updated_at: string;
+export interface UseUserModalLogic {
+  mode: UserModalProps['mode'];
+  formData: UserFormData;
+  errors: Record<string, string>;
+  loading: boolean;
+  handleChange: (field: keyof UserFormData) => (value: string) => void;
+  handleSubmit: (e: React.FormEvent) => Promise<void>;
+  onClose: () => void;
+  user?: User | null;
+  isOpen: boolean;
 }
 
-export interface ApiHeadquarter {
-  id: number;
-  nombre: string;
-  direccion: string;
-  created_at: string;
-  updated_at: string;
-}
-
-// Usuarios del backoffice - Empleados de la empresa (formato interno)
+// Tipado global de usuario para toda la app (coincide con la API)
 export interface User {
-  id: string;
-  name: string;
+  id: number;
+  nombre: string;
+  apellidos: string;
   email: string;
-  phone?: string;
-  role: 'admin' | 'operator';
-  roleId: number;
-  roleName?: string;
-  status: 'active' | 'inactive';
-  sedeId?: number;
-  sedeName?: string;
-  createdAt: string;
-  updatedAt: string;
-  lastLoginAt?: string;
-  companyId?: string;
-  company?: any;
-  companies?: any[];
+  telefono: string;
+  activo: boolean;
+  delegacion_id?: number;
+  created_at: string;
+  updated_at: string;
+  deleted_at?: string | null;
 }
 
+// Tipos para la API de usuarios
 export interface CreateUserData {
   name: string;
   email: string;
   password: string;
-  role_id: number;
   sede_id?: number;
 }
 
 export interface UpdateUserData {
   name?: string;
   email?: string;
-  role_id?: number;
   sede_id?: number;
+}
+
+// Listado de usuarios con paginación
+export interface UsersListState {
+  users: any[];
+  isLoading: boolean;
+  error: string | null;
+  filters: UserFilters;
+  selectedUser: any | null;
+  pagination?: UsersPaginationMeta;
 }
 
 export interface UserFilters {
   search?: string;
   name?: string;
   email?: string;
-  role?: number;
   sede?: number;
   date?: string;
   column?: string;
@@ -85,28 +77,19 @@ export interface UserFilters {
   pagination?: number;
 }
 
-export interface UsersResponse {
-  success: boolean;
-  data: ApiUser[];
-  message: string;
+
+// Meta de paginación para la respuesta paginada
+export interface UsersPaginationMeta {
+  include_deleted: boolean;
+  only_active: boolean;
+  page: number;
+  pages: number;
+  per_page: number;
+  total: number;
 }
 
+// Respuesta paginada de usuarios
 export interface UsersPaginatedResponse {
-  current_page: number;
-  data: ApiUser[];
-  first_page_url: string;
-  from: number;
-  last_page: number;
-  last_page_url: string;
-  links: Array<{
-    url: string | null;
-    label: string;
-    active: boolean;
-  }>;
-  next_page_url: string | null;
-  path: string;
-  per_page: number;
-  prev_page_url: string | null;
-  to: number;
-  total: number;
+  data: User[];
+  meta: UsersPaginationMeta;
 }

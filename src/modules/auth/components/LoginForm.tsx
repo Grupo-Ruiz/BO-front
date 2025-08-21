@@ -1,12 +1,6 @@
 import type { LoginFormProps } from '../types/index';
 import { useLoginForm } from '../hooks/useLoginForm';
-import {
-  EyeIcon,
-  EyeSlashIcon,
-  UserIcon,
-  LockClosedIcon,
-  BuildingOfficeIcon,
-} from '@heroicons/react/24/outline';
+import { HiOutlineEye, HiOutlineEyeSlash, HiOutlineUser, HiOutlineLockClosed, HiOutlineBuildingOffice } from 'react-icons/hi2';
 import { COMPANIES } from '../../../shared/data/companies';
 
 export function LoginForm({ onSubmit, isLoading = false }: LoginFormProps) {
@@ -49,7 +43,7 @@ export function LoginForm({ onSubmit, isLoading = false }: LoginFormProps) {
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
-                <UserIcon className="h-5 w-5 text-primary-500 dark:text-primary-400" aria-hidden="true" />
+                <HiOutlineUser className="h-5 w-5 text-primary-500 dark:text-primary-400" aria-hidden="true" />
               </div>
               <input
                 id="email"
@@ -71,7 +65,7 @@ export function LoginForm({ onSubmit, isLoading = false }: LoginFormProps) {
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
-                <LockClosedIcon className="h-5 w-5 text-primary-500 dark:text-primary-400" aria-hidden="true" />
+                <HiOutlineLockClosed className="h-5 w-5 text-primary-500 dark:text-primary-400" aria-hidden="true" />
               </div>
               <input
                 id="password"
@@ -91,9 +85,9 @@ export function LoginForm({ onSubmit, isLoading = false }: LoginFormProps) {
                   className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
                 >
                   {showPassword ? (
-                    <EyeSlashIcon className="h-5 w-5" aria-hidden="true" />
+                    <HiOutlineEyeSlash className="h-5 w-5" aria-hidden="true" />
                   ) : (
-                    <EyeIcon className="h-5 w-5" aria-hidden="true" />
+                    <HiOutlineEye className="h-5 w-5" aria-hidden="true" />
                   )}
                 </button>
               </div>
@@ -106,7 +100,7 @@ export function LoginForm({ onSubmit, isLoading = false }: LoginFormProps) {
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
-                <BuildingOfficeIcon className="h-5 w-5 text-primary-500 dark:text-primary-400" aria-hidden="true" />
+                <HiOutlineBuildingOffice className="h-5 w-5 text-primary-500 dark:text-primary-400" aria-hidden="true" />
               </div>
               <select
                 id="companyId"

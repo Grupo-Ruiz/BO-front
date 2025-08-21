@@ -15,9 +15,6 @@ interface LoginResponse {
     id: string;
     name: string;
     email: string;
-    roleName: string;
-    sedeName: string;
-    roleId: string;
     sedeId: string;
   };
   token: string;
@@ -62,14 +59,4 @@ export const authApi = {
       return false;
     }
   },
-
-  // Obtener usuario actual desde localStorage
-  getCurrentUser: () => {
-    try {
-      const userString = localStorage.getItem('yurni_auth_user');
-      return userString ? JSON.parse(userString) : null;
-    } catch (error) {
-      return null;
-    }
-  }
 };

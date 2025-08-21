@@ -4,7 +4,7 @@ import {
   LineChart, Line, PieChart, Pie, Cell, ResponsiveContainer 
 } from 'recharts';
 import { MockAPIService } from '../../../shared/services/mockApi';
-import type { KPI } from '../../../shared/types';
+import type { KPI } from '../../../shared/types/types';
 
 // Mock data for charts
 const monthlyData = [
@@ -98,12 +98,12 @@ export default function KPIsPage() {
                           }`}
                         >
                           {kpi.changeType === 'increase' ? '+' : '-'}
-                          {Math.abs(kpi.change)}%
+                          {typeof kpi.change === 'number' ? Math.abs(kpi.change) : 0}%
                         </span>
                       </div>
                     </dd>
                     <dd className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                      vs {kpi.period.toLowerCase()}
+                      vs {typeof kpi.period === 'string' ? kpi.period.toLowerCase() : ''}
                     </dd>
                   </dl>
                 </div>

@@ -1,28 +1,7 @@
-import apiClient from '../../../shared/services/apiClient';
-
 /**
  * Servicio para obtener información del usuario autenticado
  */
-// TODO: Reemplazar este mock por la llamada real a la API cuando esté disponible
-export const getCurrentUser = async () => {
-  // Simulación temporal de usuario autenticado
-  return {
-    id: 1,
-    name: 'Usuario Demo',
-    email: 'demo@yurni.com',
-    role_id: 1,
-    sede_id: 1,
-    companyId: 1
-  };
-  // Cuando la API esté lista, descomenta lo siguiente y elimina el mock:
-  // try {
-  //   const response = await apiClient.get('/user');
-  //   return response.data;
-  // } catch (error) {
-  //   console.error('Error obteniendo usuario actual:', error);
-  //   throw error;
-  // }
-};
+
 
 /**
  * Servicio para validar si el token sigue siendo válido
@@ -62,7 +41,6 @@ export const getHeadquarters = async () => {
 };
 
 export default {
-  getCurrentUser,
   validateToken,
   getHeadquarters,
 };

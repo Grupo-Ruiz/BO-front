@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
-import Header from './Header';
 import { UserModalProvider } from '../contexts/UserModalContext';
 import { UserModalManager } from './UserModalManager';
+import { Header } from './Header';
 
 export default function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);

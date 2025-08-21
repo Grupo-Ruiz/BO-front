@@ -1,19 +1,8 @@
+import { authApi } from '../../shared/api/authApi';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { authApi } from '../../shared/api/authApi';
 
-// Tipos
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  roleName: string;
-  sedeName: string;
-  roleId: string;
-  sedeId: string;
-  companyId?: string;
-  company?: any;
-}
+import type { User } from '../../modules/users/types';
 
 interface AuthState {
   user: User | null;

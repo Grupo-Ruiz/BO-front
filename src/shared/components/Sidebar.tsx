@@ -1,23 +1,15 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useAuth } from '../../modules/auth/services/AuthContext';
-import {
-  HomeIcon,
-  UsersIcon,
-  UserGroupIcon,
-  CreditCardIcon,
-  ChartBarIcon,
-  QuestionMarkCircleIcon,
-  XMarkIcon,
-} from '@heroicons/react/24/outline';
+import { HiOutlineHome, HiOutlineUsers, HiOutlineUserGroup, HiOutlineCreditCard, HiOutlineChartBar, HiOutlineQuestionMarkCircle, HiOutlineXMark } from 'react-icons/hi2';
 
 const navigation = [
-  { name: 'Inicio', href: '/', icon: HomeIcon },
-  { name: 'Empleados', href: '/users', icon: UsersIcon },
-  { name: 'Clientes', href: '/clients', icon: UserGroupIcon },
-  { name: 'Tarjetas', href: '/cards', icon: CreditCardIcon },
-  { name: 'KPIs', href: '/kpis', icon: ChartBarIcon },
-  { name: 'FAQs', href: '/faqs', icon: QuestionMarkCircleIcon },
+  { name: 'Inicio', href: '/', icon: HiOutlineHome },
+  { name: 'Usuarios', href: '/users', icon: HiOutlineUsers },
+  { name: 'Clientes', href: '/clients', icon: HiOutlineUserGroup },
+  { name: 'Tarjetas', href: '/cards', icon: HiOutlineCreditCard },
+  { name: 'KPIs', href: '/kpis', icon: HiOutlineChartBar },
+  { name: 'FAQs', href: '/faqs', icon: HiOutlineQuestionMarkCircle },
 ];
 
 interface SidebarProps {
@@ -191,7 +183,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
               onClick={() => setSidebarOpen(false)}
               aria-label="Cerrar menú de navegación"
             >
-              <XMarkIcon className="h-5 w-5 text-gray-600 dark:text-gray-300" aria-hidden="true" />
+              <HiOutlineXMark className="h-5 w-5 text-gray-600 dark:text-gray-300" aria-hidden="true" />
             </button>
           </div>
           

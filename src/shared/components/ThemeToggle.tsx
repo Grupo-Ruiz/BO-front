@@ -1,4 +1,4 @@
-import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
+import { HiOutlineSun, HiOutlineMoon } from 'react-icons/hi2';
 import { useTheme } from '../services/ThemeContext';
 
 export default function ThemeToggle() {
@@ -11,9 +11,9 @@ export default function ThemeToggle() {
       aria-label={theme === 'light' ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro'}
     >
       {theme === 'light' ? (
-        <MoonIcon className="h-5 w-5" />
+        <HiOutlineMoon className="h-5 w-5" />
       ) : (
-        <SunIcon className="h-5 w-5" />
+        <HiOutlineSun className="h-5 w-5" />
       )}
     </button>
   );

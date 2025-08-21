@@ -2,7 +2,7 @@
 export const API_CONFIGS = {
   // API Principal (Laravel - Usuarios y Auth)
   MAIN: {
-    BASE_URL: 'http://127.0.0.1:8000/api',
+    BASE_URL: 'http://127.0.0.1:5000/api/v1/',
     TIMEOUT: 10000,
     HEADERS: {
       'Content-Type': 'application/json',
@@ -11,7 +11,7 @@ export const API_CONFIGS = {
   },
   // API Secundaria (para futuras integraciones)
   SECONDARY: {
-    BASE_URL: 'http://api.ejemplo.com/v1',
+    BASE_URL: 'http://127.0.0.1:5000/api/v1/',
     TIMEOUT: 8000,
     HEADERS: {
       'Content-Type': 'application/json',
@@ -34,10 +34,10 @@ export const API_ENDPOINTS = {
   LOGOUT: '/logout',
   REGISTER: '/register',
   
-  // Usuarios/Empleados
+  // Usuarios
   USERS: '/usuarios',
   USERS_FRONT: '/usuarios_front',
-  ROLES: '/roles',
+  // ...eliminado endpoint de roles...
   
   // Sedes
   HEADQUARTERS: '/sedes',
