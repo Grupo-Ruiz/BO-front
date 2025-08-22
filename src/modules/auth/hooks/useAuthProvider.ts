@@ -12,15 +12,14 @@ export function useAuthProvider(): AuthContextType {
     const checkExistingSession = async () => {
       try {
         const savedUser = localStorage.getItem(STORAGE_KEYS.AUTH_USER);
-        const savedToken = localStorage.getItem(STORAGE_KEYS.AUTH_TOKEN);
-        if (savedUser && savedToken) {
+
+        if (savedUser) {
           const userData = JSON.parse(savedUser);
           setUser(userData);
         }
       } catch (error) {
         console.error('Error checking existing session:', error);
         localStorage.removeItem(STORAGE_KEYS.AUTH_USER);
-        localStorage.removeItem(STORAGE_KEYS.AUTH_TOKEN);
       } finally {
         setIsLoading(false);
       }
@@ -69,7 +68,6 @@ export function useAuthProvider(): AuthContextType {
     } finally {
       setUser(null);
       localStorage.removeItem(STORAGE_KEYS.AUTH_USER);
-      localStorage.removeItem(STORAGE_KEYS.AUTH_TOKEN);
     }
   };
 

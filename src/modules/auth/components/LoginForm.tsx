@@ -22,7 +22,7 @@ export function LoginForm({ onSubmit, isLoading = false }: LoginFormProps) {
       <div>
         <div className="mx-auto h-40 w-40 flex items-center justify-center">
           <img 
-            src="/logo.jpeg" 
+            src="/logo.webp" 
             alt="Yurni Logo" 
             className="h-40 w-40 object-contain rounded-full"
           />

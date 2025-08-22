@@ -2,7 +2,7 @@
 export interface UserModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave?: () => void;
+  onSave?: (formData: UserFormData, userId?: number) => Promise<void> | void;
   user?: User | null;
   mode: 'create' | 'edit' | 'view';
 }
@@ -13,7 +13,10 @@ export interface UserFormData {
   apellidos: string;
   email: string;
   telefono: string;
-  activo: boolean;
+  password: string;
+  confirmPassword?: string;
+  delegacion_id?: number; // Solo para crear/editar, no se muestra en el modal de vista
+  activo?: boolean; // Solo para crear/editar, no se muestra en el modal de vista
 }
 
 export interface UseUserModalLogic {
@@ -34,6 +37,7 @@ export interface User {
   nombre: string;
   apellidos: string;
   email: string;
+  password: string;
   telefono: string;
   activo: boolean;
   delegacion_id?: number;
@@ -44,23 +48,30 @@ export interface User {
 
 // Tipos para la API de usuarios
 export interface CreateUserData {
-  name: string;
+  nombre: string;
+  apellidos: string;
   email: string;
+  telefono: string;
   password: string;
-  sede_id?: number;
+  delegacion_id?: number;
 }
 
 export interface UpdateUserData {
   name?: string;
   email?: string;
-  sede_id?: number;
+  delegacion_id?: number;
 }
 
 // Listado de usuarios con paginación
+export interface UsersListError {
+  status: number;
+  message: string;
+}
+
 export interface UsersListState {
   users: any[];
   isLoading: boolean;
-  error: string | null;
+  error: UsersListError | null;
   filters: UserFilters;
   selectedUser: any | null;
   pagination?: UsersPaginationMeta;

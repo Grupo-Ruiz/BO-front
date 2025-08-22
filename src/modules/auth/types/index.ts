@@ -29,7 +29,8 @@ export interface LoginFormProps {
 export interface AuthUser {
   id: string;
   email: string;
-  name: string;
+  nombre: string;
+  apellidos: string;
   companyId: string;
   company?: Company;
 }

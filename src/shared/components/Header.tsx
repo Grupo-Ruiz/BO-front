@@ -45,7 +45,7 @@ export function Header({ sidebarOpen, setSidebarOpen }: HeaderProps) {
         {/* Logo y título: siempre visible en móvil/tablet, solo visible en desktop cuando el sidebar está cerrado */}
         <div className={`flex flex-1 items-center transition-opacity duration-200`}>
           <img 
-            src="/logo.jpeg" 
+            src="/logo.webp" 
             alt="Yurni Logo" 
             className="h-8 w-8 mr-3 object-contain rounded-full lg:hidden"
           />

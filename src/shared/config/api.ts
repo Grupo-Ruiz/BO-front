@@ -22,9 +22,7 @@ export const API_CONFIGS = {
 
 // Configuración de localStorage keys
 export const STORAGE_KEYS = {
-  AUTH_TOKEN: 'yurni_auth_token',
   AUTH_USER: 'yurni_auth_user',
-  REDUX_PERSIST: 'yurni-root'
 } as const;
 
 // URLs de endpoints de la API principal

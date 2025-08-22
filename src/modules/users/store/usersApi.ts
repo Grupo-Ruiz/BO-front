@@ -7,6 +7,7 @@ const usersApiClient = createApiClient('MAIN');
 
 // API de Usuarios
 export const usersApi = {
+  
   // Obtener usuarios paginados (con ?page, ?per_page, etc)
   getPaginated: async (params?: any): Promise<UsersPaginatedResponse> => {
     const response = await usersApiClient.get(`${BASE_URL}/users`, {
@@ -15,16 +16,6 @@ export const usersApi = {
         ...params
       }
     });
-    return response.data;
-  },
-  // Alias para compatibilidad
-  getAll: async (params?: any): Promise<UsersPaginatedResponse> => {
-    return usersApi.getPaginated(params);
-  },
-
-  // Obtener usuario por ID
-  getById: async (id: string): Promise<User> => {
-    const response = await usersApiClient.get(`${BASE_URL}/users/${id}`);
     return response.data;
   },
 

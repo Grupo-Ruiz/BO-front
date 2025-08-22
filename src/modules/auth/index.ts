@@ -9,7 +9,6 @@ export { useAuth } from './hooks/useAuth';
 
 // Services
 export { AuthProvider } from './services/AuthContext';
-export * from './services/authService';
 
 // Routes
 export { AuthRoutes, LoginPage } from './routes';

@@ -25,7 +25,7 @@ export const createApiClient = (apiType: ApiType = 'MAIN'): AxiosInstance => {
   // Interceptor para agregar el token de autenticación
   instance.interceptors.request.use(
     (config) => {
-      const token = localStorage.getItem(STORAGE_KEYS.AUTH_TOKEN);
+      const token = localStorage.getItem(STORAGE_KEYS.AUTH_USER)?.token || null;
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
@@ -42,7 +42,6 @@ export const createApiClient = (apiType: ApiType = 'MAIN'): AxiosInstance => {
     (error) => {
       if (error.response?.status === 401) {
         // Token expirado o inválido
-        localStorage.removeItem(STORAGE_KEYS.AUTH_TOKEN);
         localStorage.removeItem(STORAGE_KEYS.AUTH_USER);
         // Limpiar store de Redux si es necesario
         window.dispatchEvent(new CustomEvent('auth:logout'));

@@ -6,6 +6,7 @@ import type { User } from '../../modules/users/types';
 
 interface AuthState {
   user: User | null;
+  companyId: string | null;
   token: string | null;
   isAuthenticated: boolean;
   loading: boolean;
@@ -15,6 +16,7 @@ interface AuthState {
 // Estado inicial
 const initialState: AuthState = {
   user: null,
+  companyId: null,
   token: null,
   isAuthenticated: false,
   loading: false,
@@ -75,8 +77,22 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
-        // Permitir que el usuario traiga companyId y company si existen
-        state.user = action.payload.user;
+        // Adaptar la respuesta para cumplir con el tipo User global
+        const apiUser = action.payload.user;
+        state.user = {
+          id: Number(apiUser.id),
+          nombre: apiUser.name || '',
+          apellidos: '',
+          email: apiUser.email || '',
+          password: '',
+          telefono: '',
+          activo: true,
+          delegacion_id: apiUser.sedeId ? Number(apiUser.sedeId) : undefined,
+          created_at: '',
+          updated_at: '',
+          deleted_at: null,
+        };
+        state.companyId = apiUser.sedeId || null;
         state.token = action.payload.token;
         state.isAuthenticated = true;
         state.error = null;

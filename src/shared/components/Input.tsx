@@ -13,6 +13,7 @@ interface InputProps {
   className?: string;
   id?: string;
   name?: string;
+  autoComplete?: string;
 }
 
 export function Input({
@@ -27,7 +28,8 @@ export function Input({
   icon,
   className = '',
   id,
-  name
+  name,
+  autoComplete
 }: InputProps) {
   const inputId = id || name;
 
@@ -61,6 +63,7 @@ export function Input({
           placeholder={placeholder}
           disabled={disabled}
           required={required}
+          autoComplete={autoComplete}
           className={`
             block w-full rounded-md border-gray-300 dark:border-gray-600 
             bg-white dark:bg-gray-800 

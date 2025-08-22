@@ -37,7 +37,7 @@ export const loginWithApi = async (credentials: LoginCredentials): Promise<Login
       companies: [COMPANIES[1]],
     }
   ];
-// ...existing code...
+
   const user = mockUsers.find(u => u.email === credentials.email && credentials.password === '123456');
   if (user && credentials.companyId) {
     // Buscar la empresa seleccionada
@@ -49,8 +49,7 @@ export const loginWithApi = async (credentials: LoginCredentials): Promise<Login
       company: company || null,
       companies: user.companies // lista de empresas a las que tiene acceso
     };
-    localStorage.setItem(STORAGE_KEYS.AUTH_TOKEN, user.token);
-    localStorage.setItem('yurni_auth_user', JSON.stringify(userWithCompany));
+    localStorage.setItem(STORAGE_KEYS.AUTH_USER, JSON.stringify(userWithCompany));
     return {
       success: true,
       data: userWithCompany
@@ -68,7 +67,6 @@ export const loginWithApi = async (credentials: LoginCredentials): Promise<Login
  */
 export const logoutWithApi = async (): Promise<boolean> => {
   // Simulación de logout sin API
-  localStorage.removeItem(STORAGE_KEYS.AUTH_TOKEN);
+  localStorage.removeItem(STORAGE_KEYS.AUTH_USER);
   return true;
 };
-

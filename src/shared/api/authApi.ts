@@ -28,7 +28,6 @@ export const authApi = {
     
     // Guardar token en localStorage
     if (response.data.token) {
-      localStorage.setItem('yurni_auth_token', response.data.token);
       localStorage.setItem('yurni_auth_user', JSON.stringify(response.data.user));
     }
     
@@ -41,7 +40,6 @@ export const authApi = {
       await authApiClient.post(API_ENDPOINTS.LOGOUT);
     } finally {
       // Limpiar localStorage independientemente del resultado
-      localStorage.removeItem('yurni_auth_token');
       localStorage.removeItem('yurni_auth_user');
     }
   },

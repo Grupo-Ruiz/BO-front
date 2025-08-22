@@ -16,35 +16,9 @@
 
 export {
   useServices,
-  useUsers,
   useClients,
   useOperations,
   usePayments,
   useWallet,
   useDashboard
 } from './useServices';
-
-// Ejemplo de uso en un componente:
-/*
-import { useUsers, useClients } from '@/shared/hooks';
-
-const MyComponent = () => {
-  const { users, loading, error, loadUsers, createUser } = useUsers();
-  const { clients, loadClients } = useClients();
-  
-  useEffect(() => {
-    loadUsers();
-    loadClients();
-  }, [loadUsers, loadClients]);
-  
-  if (loading) return <div>Cargando...</div>;
-  if (error) return <div>Error: {error}</div>;
-  
-  return (
-    <div>
-      <h2>Usuarios: {users.length}</h2>
-      <h2>Clientes: {clients.length}</h2>
-    </div>
-  );
-};
-*/

@@ -13,7 +13,7 @@ export function useHeader(props: { sidebarOpen?: boolean; setSidebarOpen?: (open
   const handleProfileClick = () => {
     if (user) {
       const userForModal: User = {
-        id: String(user.id),
+        id: Number(user.id),
         name: user.name,
         email: user.email,
         phone: '',

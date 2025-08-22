@@ -23,7 +23,7 @@ function LogoSection() {
     <div className="flex items-center gap-3">
       <div className="flex h-12 w-12 items-center justify-center rounded-lg">
         <img 
-          src="/logo.jpeg" 
+          src="/logo.webp" 
           alt="Yurni Logo" 
           className="h-12 w-12 object-contain rounded-full"
         />
