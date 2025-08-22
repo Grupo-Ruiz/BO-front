@@ -1,18 +1,7 @@
 import { useState } from 'react';
 import { useClients } from '../hooks/useClients';
-import { PermissionGuard } from '../../auth';
-import { 
-  PlusIcon, 
-  MagnifyingGlassIcon,
-  EyeIcon,
-  PencilIcon,
-  TrashIcon,
-  NoSymbolIcon,
-  CheckCircleIcon,
-  CreditCardIcon,
-  BanknotesIcon,
-  UserIcon
-} from '@heroicons/react/24/outline';
+
+import { HiOutlinePlus, HiOutlineMagnifyingGlass, HiOutlineEye, HiOutlinePencil, HiOutlineTrash, HiOutlineNoSymbol, HiOutlineCheckCircle, HiOutlineCreditCard, HiOutlineBanknotes, HiOutlineUser } from 'react-icons/hi2';
 import type { Client } from '../types';
 
 const statusColors = {
@@ -208,11 +197,9 @@ export default function ClientsPage() {
               >
                 Cerrar
               </button>
-              <PermissionGuard permissions={['clients:write']}>
-                <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-                  Editar Cliente
-                </button>
-              </PermissionGuard>
+              <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                Editar Cliente
+              </button>
             </div>
           </div>
         </div>
@@ -233,12 +220,10 @@ export default function ClientsPage() {
           </p>
         </div>
         
-        <PermissionGuard permissions={['clients:write']}>
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2">
-            <PlusIcon className="h-5 w-5" />
-            Nuevo Cliente
-          </button>
-        </PermissionGuard>
+        <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2">
+          <HiOutlinePlus className="h-5 w-5" />
+          Nuevo Cliente
+        </button>
       </div>
 
       {/* Filters */}
@@ -249,7 +234,7 @@ export default function ClientsPage() {
               Buscar
             </label>
             <div className="relative">
-              <MagnifyingGlassIcon className="h-5 w-5 absolute left-3 top-3 text-gray-400" />
+              <HiOutlineMagnifyingGlass className="h-5 w-5 absolute left-3 top-3 text-gray-400" />
               <input
                 type="text"
                 value={searchTerm}
@@ -320,7 +305,7 @@ export default function ClientsPage() {
                 {clients.length}
               </p>
             </div>
-            <UserIcon className="h-8 w-8 text-blue-600" />
+            <HiOutlineUser className="h-8 w-8 text-blue-600" />
           </div>
         </div>
 
@@ -332,7 +317,7 @@ export default function ClientsPage() {
                 {clients.filter(c => c.status === 'active').length}
               </p>
             </div>
-            <CheckCircleIcon className="h-8 w-8 text-green-600" />
+            <HiOutlineCheckCircle className="h-8 w-8 text-green-600" />
           </div>
         </div>
 
@@ -344,7 +329,7 @@ export default function ClientsPage() {
                 {clients.filter(c => c.kycStatus === 'verified').length}
               </p>
             </div>
-            <CreditCardIcon className="h-8 w-8 text-blue-600" />
+            <HiOutlineCreditCard className="h-8 w-8 text-blue-600" />
           </div>
         </div>
 
@@ -356,7 +341,7 @@ export default function ClientsPage() {
                 {formatCurrency(clients.reduce((acc, c) => acc + c.walletBalance, 0))}
               </p>
             </div>
-            <BanknotesIcon className="h-8 w-8 text-purple-600" />
+            <HiOutlineBanknotes className="h-8 w-8 text-purple-600" />
           </div>
         </div>
       </div>
@@ -459,46 +444,40 @@ export default function ClientsPage() {
                           className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
                           title="Ver detalles"
                         >
-                          <EyeIcon className="h-4 w-4" />
+                          <HiOutlineEye className="h-4 w-4" />
                         </button>
 
-                        <PermissionGuard permissions={['clients:write']}>
+                        <button
+                          className="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300"
+                          title="Editar"
+                        >
+                          <HiOutlinePencil className="h-4 w-4" />
+                        </button>
+
+                        {client.status === 'active' ? (
                           <button
+                            onClick={() => handleStatusChange(client.id, 'suspended')}
+                            className="text-yellow-600 hover:text-yellow-800 dark:text-yellow-400 dark:hover:text-yellow-300"
+                            title="Suspender"
+                          >
+                            <HiOutlineNoSymbol className="h-4 w-4" />
+                          </button>
+                        ) : client.status === 'suspended' ? (
+                          <button
+                            onClick={() => handleStatusChange(client.id, 'active')}
                             className="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300"
-                            title="Editar"
+                            title="Activar"
                           >
-                            <PencilIcon className="h-4 w-4" />
+                            <HiOutlineCheckCircle className="h-4 w-4" />
                           </button>
-                        </PermissionGuard>
+                        ) : null}
 
-                        <PermissionGuard permissions={['clients:write']}>
-                          {client.status === 'active' ? (
-                            <button
-                              onClick={() => handleStatusChange(client.id, 'suspended')}
-                              className="text-yellow-600 hover:text-yellow-800 dark:text-yellow-400 dark:hover:text-yellow-300"
-                              title="Suspender"
-                            >
-                              <NoSymbolIcon className="h-4 w-4" />
-                            </button>
-                          ) : client.status === 'suspended' ? (
-                            <button
-                              onClick={() => handleStatusChange(client.id, 'active')}
-                              className="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300"
-                              title="Activar"
-                            >
-                              <CheckCircleIcon className="h-4 w-4" />
-                            </button>
-                          ) : null}
-                        </PermissionGuard>
-
-                        <PermissionGuard permissions={['clients:delete']}>
-                          <button
-                            className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
-                            title="Eliminar"
-                          >
-                            <TrashIcon className="h-4 w-4" />
-                          </button>
-                        </PermissionGuard>
+                        <button
+                          className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
+                          title="Eliminar"
+                        >
+                          <HiOutlineTrash className="h-4 w-4" />
+                        </button>
                       </div>
                     </td>
                   </tr>

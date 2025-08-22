@@ -9,7 +9,7 @@ export interface AuthContextType {
 export interface AuthProviderProps {
   children: React.ReactNode;
 }
-import type { Company } from '../../../shared/data/companies.ts';
+import type { Company } from '@/modules/shared/data/companies';
 
 export interface UseLoginFormProps {
   onSubmit: (credentials: LoginCredentials) => Promise<boolean>;
@@ -18,14 +18,6 @@ export interface UseLoginFormProps {
 
 export interface ProtectedRouteProps {
   children: React.ReactNode;
-}
-export interface PermissionGuardProps {
-  children: React.ReactNode;
-  permission?: string;
-  permissions?: string[];
-  requireAll?: boolean;
-  role?: 'admin' | 'operator';
-  fallback?: React.ReactNode;
 }
 
 export interface LoginFormProps {
@@ -36,9 +28,9 @@ export interface LoginFormProps {
 export interface AuthUser {
   id: string;
   email: string;
-  name: string;
-  role: 'admin' | 'operator';
-  permissions: string[];
+  nombre: string;
+  apellidos: string;
+  telefono: string;
   companyId: string;
   company?: Company;
 }

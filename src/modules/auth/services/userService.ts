@@ -1,4 +1,4 @@
-import apiClient from '../../../shared/services/apiClient';
+import apiClient from '@/modules/shared/services/apiClient';
 
 /**
  * Servicio para obtener información del usuario autenticado

@@ -1,12 +1,12 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { Layout } from '../shared/components';
+import { Layout } from '../modules/shared/components';
 import { ProtectedRoute, LoginPage } from '../modules/auth';
-import { Dashboard } from '../modules/dashboard';
-import { UsersPage } from '../modules/users';
-import { ClientsPage } from '../modules/clients';
-import { CardManagementPage } from '../modules/wallet';
-import { KPIsPage } from '../modules/kpis';
-import { FAQsPage } from '../modules/faqs';
+import { DashboardRoutes } from '../modules/dashboard/routes';
+import { UserRoutes } from '../modules/users/routes';
+import { ClientRoutes } from '../modules/clients/routes';
+import { WalletRoutes } from '../modules/wallet/routes';
+import { KPIRoutes } from '../modules/kpis/routes';
+import { FAQRoutes } from '../modules/faqs/routes';
 
 export const AppRoutes = () => {
   return (
@@ -21,14 +21,12 @@ export const AppRoutes = () => {
         </ProtectedRoute>
       }>
         {/* Dashboard */}
-        <Route index element={<Dashboard />} />
-        
-        {/* Módulos */}
-        <Route path="users" element={<UsersPage />} />
-        <Route path="clients" element={<ClientsPage />} />
-        <Route path="cards" element={<CardManagementPage />} />
-        <Route path="kpis" element={<KPIsPage />} />
-        <Route path="faqs" element={<FAQsPage />} />
+        {DashboardRoutes()}
+        {UserRoutes()}
+        {ClientRoutes()}
+        {WalletRoutes()}
+        {KPIRoutes()}
+        {FAQRoutes()}
       </Route>
 
       {/* Ruta catch-all para rutas inexistentes - redirige al dashboard */}
