@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { UserModal, useUserActions, type User } from '../index';
 import { PermissionGuard } from '../../auth';
-import { Button } from '../../../shared/components';
+import { Button } from '../../../modules/shared/components';
 import {
   PencilIcon,
   TrashIcon,

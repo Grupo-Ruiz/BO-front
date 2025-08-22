@@ -1,19 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { MockAPIService } from '../../../shared/services/mockApi';
-import type { KPI } from '../../../shared/types';
-import {
-  UsersIcon,
-  CreditCardIcon,
-  BanknotesIcon,
-  ChartBarIcon,
-} from '@heroicons/react/24/outline';
+import { MockAPIService } from '@/modules/shared/services/mockApi';
+import type { KPI } from '@/modules/shared/types';
+import { HiOutlineUsers, HiOutlineCreditCard, HiOutlineBanknotes, HiOutlineChartBar } from 'react-icons/hi2';
 
 const iconMap = {
-  'Usuarios Activos': UsersIcon,
-  'Transacciones Diarias': CreditCardIcon,
-  'Ingresos Mensuales': BanknotesIcon,
-  'Tickets Vendidos': ChartBarIcon,
+  'Usuarios Activos': HiOutlineUsers,
+  'Transacciones Diarias': HiOutlineCreditCard,
+  'Ingresos Mensuales': HiOutlineBanknotes,
+  'Tickets Vendidos': HiOutlineChartBar,
 };
 
 export default function Dashboard() {
@@ -57,7 +52,7 @@ export default function Dashboard() {
       {/* KPIs Grid */}
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {kpis.map((kpi) => {
-          const IconComponent = iconMap[kpi.name as keyof typeof iconMap] || ChartBarIcon;
+          const IconComponent = iconMap[kpi.name as keyof typeof iconMap] || HiOutlineChartBar;
           return (
             <div
               key={kpi.id}
@@ -90,9 +85,9 @@ export default function Dashboard() {
                           }`}
                         >
                           {kpi.changeType === 'increase' ? '+' : '-'}
-                          {Math.abs(kpi.change)}%
+                          {Math.abs(kpi.change ?? 0)}%
                         </span>
-                        <span className="ml-1 text-gray-500 dark:text-gray-400">vs {kpi.period.toLowerCase()}</span>
+                        <span className="ml-1 text-gray-500 dark:text-gray-400">vs {(kpi.period ?? '').toLowerCase()}</span>
                       </div>
                     </dd>
                   </dl>
@@ -109,7 +104,7 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <div className="relative rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-6 py-5 shadow-sm dark:shadow-gray-900/20 flex items-center space-x-3 hover:border-gray-400 dark:hover:border-gray-500 focus-within:ring-2 focus-within:ring-offset-2 dark:focus-within:ring-offset-gray-900 focus-within:ring-primary-500">
             <div className="flex-shrink-0">
-              <UsersIcon className="h-10 w-10 text-primary-600 dark:text-primary-400" />
+              <HiOutlineUsers className="h-10 w-10 text-primary-600 dark:text-primary-400" />
             </div>
             <div className="flex-1 min-w-0">
               <Link to="/users" className="focus:outline-none">
@@ -122,7 +117,7 @@ export default function Dashboard() {
 
           <div className="relative rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-6 py-5 shadow-sm dark:shadow-gray-900/20 flex items-center space-x-3 hover:border-gray-400 dark:hover:border-gray-500 focus-within:ring-2 focus-within:ring-offset-2 dark:focus-within:ring-offset-gray-900 focus-within:ring-primary-500">
             <div className="flex-shrink-0">
-              <CreditCardIcon className="h-10 w-10 text-primary-600 dark:text-primary-400" />
+              <HiOutlineCreditCard className="h-10 w-10 text-primary-600 dark:text-primary-400" />
             </div>
             <div className="flex-1 min-w-0">
               <Link to="/cards" className="focus:outline-none">
@@ -135,7 +130,7 @@ export default function Dashboard() {
 
           <div className="relative rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-6 py-5 shadow-sm dark:shadow-gray-900/20 flex items-center space-x-3 hover:border-gray-400 dark:hover:border-gray-500 focus-within:ring-2 focus-within:ring-offset-2 dark:focus-within:ring-offset-gray-900 focus-within:ring-primary-500">
             <div className="flex-shrink-0">
-              <ChartBarIcon className="h-10 w-10 text-primary-600 dark:text-primary-400" />
+              <HiOutlineChartBar className="h-10 w-10 text-primary-600 dark:text-primary-400" />
             </div>
             <div className="flex-1 min-w-0">
               <Link to="/kpis" className="focus:outline-none">

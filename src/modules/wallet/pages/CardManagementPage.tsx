@@ -1,17 +1,9 @@
 import { useEffect, useState } from 'react';
-import { MockAPIService } from '../../../shared/services/mockApi';
-import type { WalletOperation, Payment, SAEOperation } from '../../../shared/types';
-import {
-  CreditCardIcon,
-  QrCodeIcon,
-  PlusIcon,
-  MinusIcon,
-  ArrowPathIcon,
-  MagnifyingGlassIcon,
-  DocumentTextIcon,
-  BanknotesIcon,
-  ClockIcon,
-} from '@heroicons/react/24/outline';
+import { MockAPIService } from '@/modules/shared/services/mockApi';
+
+import { HiOutlineCreditCard, HiOutlineQrCode, HiOutlinePlus, HiOutlineMinus, HiOutlineArrowPath, HiOutlineMagnifyingGlass, HiOutlineDocumentText, HiOutlineBanknotes, HiOutlineClock } from 'react-icons/hi2';
+import type { SAEOperation, WalletOperation } from '@/modules/shared/types';
+import type { Payment } from '@/modules/shared/types';
 
 type TabType = 'dashboard' | 'operations' | 'payments' | 'cards' | 'qr-generator';
 type OperationType = 'all' | 'recharge' | 'payment' | 'refund' | 'subscription' | 'qr_generation';
@@ -103,24 +95,44 @@ export default function CardManagementPage() {
 
   // Combinar todas las operaciones para el dashboard con normalización
   const allOperations: UnifiedOperation[] = [
-    ...operations.map(op => ({ 
-      ...op, 
+    ...operations.map(op => ({
+      id: op.id,
+      userId: op.userId ?? '',
+      userName: op.userName ?? '',
+      type: op.type ?? '',
+      description: op.type ?? '', // Ajusta si tienes descripción en WalletOperation
+      amount: op.amount ?? 0,
+      timestamp: op.timestamp ?? op.date ?? '',
+      status: 'completed', // Ajusta si tienes status en WalletOperation
       source: 'wallet' as const,
-      method: undefined,
-      reference: undefined
+      reference: undefined,
+      method: undefined
     })),
-    ...payments.map(op => ({ 
-      ...op, 
-      source: 'payment' as const,
+    ...payments.map(op => ({
+      id: op.id,
+      userId: op.userId ?? '',
+      userName: op.userName ?? '',
       type: 'payment',
+      description: op.reference ?? '', // Ajusta si tienes descripción en Payment
+      amount: op.amount ?? 0,
+      timestamp: op.date ?? '',
+      status: op.status ?? '',
+      source: 'payment' as const,
       reference: op.reference,
       method: op.method
     })),
-    ...saeOperations.map(op => ({ 
-      ...op, 
+    ...saeOperations.map(op => ({
+      id: op.id,
+      userId: op.userId ?? '',
+      userName: op.userName ?? '',
+      type: op.type ?? '',
+      description: op.description ?? '',
+      amount: op.amount ?? 0,
+      timestamp: op.timestamp ?? op.date ?? '',
+      status: op.status ?? '',
       source: 'sae' as const,
-      method: undefined,
-      reference: op.saeReference
+      reference: op.saeReference,
+      method: undefined
     }))
   ].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 
@@ -134,19 +146,19 @@ export default function CardManagementPage() {
   const getOperationIcon = (type: string) => {
     switch (type) {
       case 'recharge':
-        return <PlusIcon className="h-5 w-5 text-green-600 dark:text-green-400" />;
+        return <HiOutlinePlus className="h-5 w-5 text-green-600 dark:text-green-400" />;
       case 'payment':
-        return <MinusIcon className="h-5 w-5 text-red-600 dark:text-red-400" />;
+        return <HiOutlineMinus className="h-5 w-5 text-red-600 dark:text-red-400" />;
       case 'refund':
-        return <ArrowPathIcon className="h-5 w-5 text-blue-600 dark:text-blue-400" />;
+        return <HiOutlineArrowPath className="h-5 w-5 text-blue-600 dark:text-blue-400" />;
       case 'subscription_recharge':
       case 'subscription':
-        return <CreditCardIcon className="h-5 w-5 text-purple-600 dark:text-purple-400" />;
+        return <HiOutlineCreditCard className="h-5 w-5 text-purple-600 dark:text-purple-400" />;
       case 'qr_generation':
       case 'qr_scan':
-        return <QrCodeIcon className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />;
+        return <HiOutlineQrCode className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />;
       default:
-        return <DocumentTextIcon className="h-5 w-5 text-gray-600 dark:text-gray-400" />;
+        return <HiOutlineDocumentText className="h-5 w-5 text-gray-600 dark:text-gray-400" />;
     }
   };
 
@@ -194,11 +206,11 @@ export default function CardManagementPage() {
   };
 
   const tabs = [
-    { id: 'dashboard', name: 'Dashboard', icon: DocumentTextIcon },
-    { id: 'operations', name: 'Operaciones', icon: ClockIcon },
-    { id: 'payments', name: 'Pagos', icon: BanknotesIcon },
-    { id: 'cards', name: 'Tarjetas', icon: CreditCardIcon },
-    { id: 'qr-generator', name: 'Generar QR', icon: QrCodeIcon },
+    { id: 'dashboard', name: 'Dashboard', icon: HiOutlineDocumentText },
+    { id: 'operations', name: 'Operaciones', icon: HiOutlineClock },
+    { id: 'payments', name: 'Pagos', icon: HiOutlineBanknotes },
+    { id: 'cards', name: 'Tarjetas', icon: HiOutlineCreditCard },
+    { id: 'qr-generator', name: 'Generar QR', icon: HiOutlineQrCode },
   ];
 
   const DashboardTab = () => (
@@ -209,7 +221,7 @@ export default function CardManagementPage() {
           <div className="p-5">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <CreditCardIcon className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                <HiOutlineCreditCard className="h-6 w-6 text-blue-600 dark:text-blue-400" />
               </div>
               <div className="ml-5 w-0 flex-1">
                 <dl>
@@ -225,7 +237,7 @@ export default function CardManagementPage() {
           <div className="p-5">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <BanknotesIcon className="h-6 w-6 text-green-600 dark:text-green-400" />
+                <HiOutlineBanknotes className="h-6 w-6 text-green-600 dark:text-green-400" />
               </div>
               <div className="ml-5 w-0 flex-1">
                 <dl>
@@ -243,7 +255,7 @@ export default function CardManagementPage() {
           <div className="p-5">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <ClockIcon className="h-6 w-6 text-yellow-600 dark:text-yellow-400" />
+                <HiOutlineClock className="h-6 w-6 text-yellow-600 dark:text-yellow-400" />
               </div>
               <div className="ml-5 w-0 flex-1">
                 <dl>
@@ -263,7 +275,7 @@ export default function CardManagementPage() {
           <div className="p-5">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <QrCodeIcon className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+                <HiOutlineQrCode className="h-6 w-6 text-purple-600 dark:text-purple-400" />
               </div>
               <div className="ml-5 w-0 flex-1">
                 <dl>
@@ -329,7 +341,7 @@ export default function CardManagementPage() {
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1">
               <div className="relative">
-                <MagnifyingGlassIcon className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" />
+                <HiOutlineMagnifyingGlass className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" />
                 <input
                   type="text"
                   placeholder="Buscar por usuario o descripción..."
@@ -435,7 +447,7 @@ export default function CardManagementPage() {
             <div className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center">
-                  <CreditCardIcon className="h-8 w-8 text-primary-600 dark:text-primary-400" />
+                  <HiOutlineCreditCard className="h-8 w-8 text-primary-600 dark:text-primary-400" />
                   <div className="ml-3">
                     <p className="text-sm font-medium text-gray-900 dark:text-white">{card.cardNumber}</p>
                     <p className="text-sm text-gray-500 dark:text-gray-400">{card.userName}</p>
@@ -538,7 +550,7 @@ export default function CardManagementPage() {
             <div className="flex items-center justify-center">
               <div className="w-64 h-64 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300 dark:border-gray-600">
                 <div className="text-center">
-                  <QrCodeIcon className="h-16 w-16 text-gray-400 dark:text-gray-500 mx-auto mb-2" />
+                  <HiOutlineQrCode className="h-16 w-16 text-gray-400 dark:text-gray-500 mx-auto mb-2" />
                   <p className="text-sm text-gray-500 dark:text-gray-400">El código QR aparecerá aquí</p>
                 </div>
               </div>
@@ -559,21 +571,21 @@ export default function CardManagementPage() {
             <li key={qr.id} className="px-4 py-4 hover:bg-gray-50 dark:hover:bg-gray-700">
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
-                  <QrCodeIcon className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+                  <HiOutlineQrCode className="h-5 w-5 text-purple-600 dark:text-purple-400" />
                   <div className="ml-4">
                     <p className="text-sm font-medium text-gray-900 dark:text-white">
                       {qr.description}
                     </p>
                     <p className="text-sm text-gray-500 dark:text-gray-400">
-                      {qr.userName} • {new Date(qr.timestamp).toLocaleString('es-ES')}
+                      {qr.userName} • {qr.timestamp ? new Date(qr.timestamp).toLocaleString('es-ES') : ''}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-3">
                   <span className="text-sm font-medium text-gray-900 dark:text-white">
-                    €{qr.amount.toFixed(2)}
+                    €{qr.amount !== undefined ? qr.amount.toFixed(2) : '0.00'}
                   </span>
-                  {getStatusBadge(qr.status)}
+                  {getStatusBadge(qr.status ?? '')}
                 </div>
               </div>
             </li>
