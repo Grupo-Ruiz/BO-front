@@ -64,10 +64,9 @@ function userReducer(state: UserState, action: UserAction): UserState {
       };
     
     case 'REMOVE_USER':
+      console.log('Removing user with ID:', action.payload);
       return {
         ...state,
-        users: state.users.filter(user => user.id !== action.payload),
-        selectedUser: state.selectedUser?.id === action.payload ? null : state.selectedUser,
         isLoading: false,
         error: null
       };

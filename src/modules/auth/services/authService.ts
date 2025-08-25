@@ -1,8 +1,8 @@
 import { STORAGE_KEYS } from '@/modules/shared/config/api';
-import type { User } from '../../users/types';
 import type { LoginCredentials } from '../types';
 
 import type { AuthUser } from '../types';
+import type { User } from '@/modules/users';
 
 export interface LoginResponse {
   success: boolean;

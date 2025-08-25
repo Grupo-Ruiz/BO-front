@@ -1,3 +1,18 @@
-export { default as uiReducer } from './slices/uiSlice';
-export { default as delegationsReducer } from './slices/delegationsSlice';
-// Aquí puedes exportar otros reducers/thunks/api globales si los necesitas
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import uiReducer from './slices/uiSlice';
+import delegationsReducer from './slices/delegationsSlice';
+// Agrega aquí otros reducers si los tienes
+
+const rootReducer = combineReducers({
+  ui: uiReducer,
+  delegations: delegationsReducer,
+});
+
+export const store = configureStore({
+  reducer: rootReducer,
+});
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
+export { uiReducer, delegationsReducer };

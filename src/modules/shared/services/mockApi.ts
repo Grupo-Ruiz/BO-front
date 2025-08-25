@@ -1,64 +1,4 @@
-import type { User } from '../../modules/users/types';
 import type { WalletOperation, Payment, Operation, SAEOperation, FAQ, KPI } from "../types";
-
-// Mock data generators
-
-const generateMockUsers = (): User[] => {
-  return [
-    {
-      id: 1,
-      nombre: 'María',
-      apellidos: 'García',
-      email: 'maria.garcia@email.com',
-      password: '123456',
-      telefono: '+34 600 123 456',
-      activo: true,
-      delegacion_id: 1,
-      created_at: '2024-01-15T10:30:00Z',
-      updated_at: '2024-02-01T10:30:00Z',
-      deleted_at: null
-    },
-    {
-      id: 2,
-      nombre: 'Juan',
-      apellidos: 'López',
-      email: 'juan.lopez@email.com',
-      password: '123456',
-      telefono: '+34 600 789 012',
-      activo: true,
-      delegacion_id: 2,
-      created_at: '2024-02-01T14:20:00Z',
-      updated_at: '2024-02-10T14:20:00Z',
-      deleted_at: null
-    },
-    {
-      id: 3,
-      nombre: 'Ana',
-      apellidos: 'Martínez',
-      email: 'ana.martinez@email.com',
-      password: '123456',
-      telefono: '+34 600 345 678',
-      activo: false,
-      delegacion_id: 1,
-      created_at: '2024-01-28T09:15:00Z',
-      updated_at: '2024-02-15T09:15:00Z',
-      deleted_at: null
-    },
-    {
-      id: 4,
-      nombre: 'Carlos',
-      apellidos: 'Rodríguez',
-      email: 'carlos.rodriguez@email.com',
-      password: '123456',
-      telefono: '+34 600 901 234',
-      activo: true,
-      delegacion_id: 2,
-      created_at: '2024-02-10T16:45:00Z',
-      updated_at: '2024-02-18T16:45:00Z',
-      deleted_at: null
-    }
-  ];
-};
 
 const generateMockWalletOperations = (): WalletOperation[] => {
   return [
@@ -278,45 +218,6 @@ const generateMockKPIs = (): KPI[] => {
 
 // Mock API services
 export class MockAPIService {
-  // Users
-  static async getUsers(): Promise<User[]> {
-    await this.delay(500);
-    return generateMockUsers();
-  }
-
-  static async getUserById(id: string): Promise<User | null> {
-    await this.delay(300);
-    const users = generateMockUsers();
-    return users.find(user => user.id === id) || null;
-  }
-
-  static async updateUser(id: string, userData: Partial<User>): Promise<User> {
-    await this.delay(500);
-    const users = generateMockUsers();
-    const userIndex = users.findIndex(user => user.id === id);
-    if (userIndex !== -1) {
-      users[userIndex] = { ...users[userIndex], ...userData };
-      return users[userIndex];
-    }
-    throw new Error('User not found');
-  }
-
-  static async createUser(userData: Omit<User, 'id' | 'createdAt'>): Promise<User> {
-    await this.delay(500);
-    const newUser: User = {
-      ...userData,
-      id: Date.now().toString(),
-      createdAt: new Date().toISOString()
-    };
-    return newUser;
-  }
-
-  static async deleteUser(id: string): Promise<void> {
-    await this.delay(500);
-    // Mock deletion - in real implementation, would delete user with this id
-    console.log(`Deleting user with id: ${id}`);
-  }
-
   // Wallet Operations
   static async getWalletOperations(): Promise<WalletOperation[]> {
     await this.delay(500);

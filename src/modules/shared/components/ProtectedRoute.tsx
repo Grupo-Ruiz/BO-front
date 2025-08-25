@@ -1,5 +1,4 @@
-import { LoginPage } from '../../modules/auth';
-import { useAuth } from '../../modules/auth/services';
+import { LoginPage, useAuth } from "@/modules/auth";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
