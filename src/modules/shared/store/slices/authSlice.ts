@@ -1,6 +1,6 @@
+import { authApi } from '@/modules/auth/store/api/authApi';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { authApi } from '@/modules/shared/api/authApi';
 
 interface User {
   id: string;
@@ -69,9 +69,6 @@ const authSlice = createSlice({
       state.error = action.payload;
     }
   },
-  extraReducers: (builder) => {
-    // ...
-  }
 });
 
 export const { setUser, setToken, setIsAuthenticated, setLoading, setError } = authSlice.actions;

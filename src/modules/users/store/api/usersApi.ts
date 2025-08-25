@@ -46,10 +46,4 @@ export const usersApi = {
   restore: async (id: string): Promise<void> => {
     await usersApiClient.post(`${BASE_URL}/users/${id}/restore`);
   },
-
-  // Obtener sedes/headquarters
-  getHeadquarters: async (): Promise<any[]> => {
-    const response = await usersApiClient.get(`${BASE_URL}/headquarters`);
-    return response.data;
-  }
 };

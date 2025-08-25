@@ -1,6 +1,6 @@
+import type { User } from '@/modules/users';
 import { createContext, useContext, useState } from 'react';
 import type { ReactNode } from 'react';
-import type { User } from '../../modules/users/types';
 
 interface UserModalContextType {
   isOpen: boolean;

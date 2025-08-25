@@ -25,7 +25,18 @@ export const createApiClient = (apiType: ApiType = 'MAIN'): AxiosInstance => {
   // Interceptor para agregar el token de autenticación
   instance.interceptors.request.use(
     (config) => {
-      const token = localStorage.getItem(STORAGE_KEYS.AUTH_USER)?.token || null;
+      // Definir tipo para el usuario autenticado
+      type AuthUser = { token: string };
+      const userString = localStorage.getItem(STORAGE_KEYS.AUTH_USER);
+      let token: string | null = null;
+      if (userString) {
+        try {
+          const user: AuthUser = JSON.parse(userString);
+          token = user.token;
+        } catch (e) {
+          token = null;
+        }
+      }
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }

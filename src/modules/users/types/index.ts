@@ -88,7 +88,6 @@ export interface UserFilters {
   pagination?: number;
 }
 
-
 // Meta de paginación para la respuesta paginada
 export interface UsersPaginationMeta {
   include_deleted: boolean;
