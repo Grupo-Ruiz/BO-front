@@ -140,8 +140,8 @@ function UserModal({ isOpen, onClose, onSave, onEdit, user, mode }: UserModalPro
                 Estado del usuario
               </label>
               <select
-                value={formData.activo ? 'activo' : 'inactivo'}
-                onChange={(e) => handleChange('activo')(e.target.value === 'activo')}
+                value={formData.activo ? "true" : "false"}
+                onChange={e => handleChange('activo')(e.target.value === "true")}
                 disabled={mode === 'view'}
                 className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors ${
                   mode === 'view'
@@ -149,8 +149,8 @@ function UserModal({ isOpen, onClose, onSave, onEdit, user, mode }: UserModalPro
                     : ''
                 }`}
               >
-                <option value="activo">Activo</option>
-                <option value="inactivo">Inactivo</option>
+                <option value="true">Activo</option>
+                <option value="false">Inactivo</option>
               </select>
               <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                 Los usuarios inactivos no pueden acceder al sistema

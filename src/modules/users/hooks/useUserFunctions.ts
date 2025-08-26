@@ -74,8 +74,13 @@ export function useUserFunctions() {
         return;
       }
       const { confirmPassword, ...dataToSend } = formData;
-
-      await dispatch(createUser(dataToSend)).unwrap();
+      // Aseguramos que password sea string (vacío si no hay)
+      const dataToSendFixed = {
+        ...dataToSend,
+        password: dataToSend.password || '',
+        // activo ya es boolean, no conversion
+      };
+      await dispatch(createUser(dataToSendFixed)).unwrap();
       await Swal.fire({
         title: 'Usuario creado',
         text: 'El nuevo usuario ha sido creado exitosamente.',
@@ -108,9 +113,14 @@ export function useUserFunctions() {
   // Solo para editar
   const handleModalEdit = async (formData: UserEditFormData, userId: number) => {
     try {
-      const { id, confirmPassword, ...dataToSend } = formData as UserEditFormData;
-
-      await dispatch(updateUser({ userData: dataToSend, id: userId })).unwrap();
+      const { id, confirmPassword, ...dataToSend } = formData as UserEditFormData & { confirmPassword?: string };
+      // Aseguramos que password sea string (vacío si no hay)
+      const dataToSendFixed = {
+        ...dataToSend,
+        password: dataToSend.password || '',
+        // activo ya es boolean, no conversion
+      };
+      await dispatch(updateUser({ userData: dataToSendFixed, id: userId })).unwrap();
       await Swal.fire({
         title: 'Usuario actualizado',
         text: 'El usuario ha sido actualizado exitosamente.',
