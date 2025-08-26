@@ -81,10 +81,10 @@ export function useUserModalLogic(props: UserModalProps): UseUserModalLogic {
     }
   };
 
-  const handleChange = (field: keyof UserFormData) => (value: string) => {
+  const handleChange = (field: keyof UserFormData) => (value: string | boolean) => {
     setFormData(prev => ({
       ...prev,
-      [field]: value,
+      [field]: field === 'activo' ? Boolean(value) : value,
     }));
     if (errors[field]) setErrors(prev => ({ ...prev, [field]: '' }));
   };

@@ -30,7 +30,7 @@ export interface UseUserModalLogic {
   formData: UserFormData;
   errors: Record<string, string>;
   loading: boolean;
-  handleChange: (field: keyof UserFormData) => (value: string) => void;
+  handleChange: (field: keyof UserFormData) => (value: string | boolean) => void;
   handleSubmit: (e: React.FormEvent) => Promise<void>;
   onClose: () => void;
   user?: User | null;
@@ -58,8 +58,9 @@ export interface CreateUserData {
   apellidos: string;
   email: string;
   telefono: string;
-  password: string;
+  password?: string;
   delegacion_id?: number;
+  activo?: boolean;
 }
 
 export interface UpdateUserData {
@@ -67,8 +68,8 @@ export interface UpdateUserData {
   apellidos: string;
   email: string;
   telefono: string;
-  password: string;
-  activo: string;
+  password?: string;
+  activo?: boolean;
   delegacion_id?: number;
 }
 
