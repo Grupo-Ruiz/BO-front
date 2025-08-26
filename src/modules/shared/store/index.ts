@@ -1,15 +1,14 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import uiReducer from './slices/uiSlice';
 import delegationsReducer from './slices/delegationsSlice';
-// Agrega aquí otros reducers si los tienes
-
-const rootReducer = combineReducers({
-  ui: uiReducer,
-  delegations: delegationsReducer,
-});
+import { usersReducer } from '@/modules/users/store';
 
 export const store = configureStore({
-  reducer: rootReducer,
+  reducer: {
+    ui: uiReducer,
+    users: usersReducer,
+    delegations: delegationsReducer,
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;
