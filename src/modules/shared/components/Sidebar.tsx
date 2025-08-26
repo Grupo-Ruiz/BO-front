@@ -105,14 +105,16 @@ function SidebarContainer({ children, className = "" }: { children: React.ReactN
 }
 
 export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
-  const { user } = useAuth();
+  const {user} = useAuth();
   const dispatch = useAppDispatch();
   const { delegations } = useAppSelector((state: RootState) => state.delegations);
   
-  // Obtener las delegaciones al montar el componente
+  // Obtener las delegaciones solo si están vacías
   useEffect(() => {
-    dispatch(getDelegations());
-  }, []);
+    if (!delegations || delegations.length === 0) {
+      dispatch(getDelegations());
+    }
+  }, [delegations, dispatch]);
 
   // Cerrar sidebar cuando se cambie a desktop
   useEffect(() => {
@@ -212,9 +214,9 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
         <SidebarContainer>
           <SidebarContent showLogo={true} />
           {/* Empresa seleccionada abajo */}
-          {user?.companyId && (
+          {user?.delegacion_id && (
             <div className="mt-auto py-4 px-4 border-t border-gray-200 dark:border-gray-700 text-xs text-gray-600 dark:text-gray-400">
-              <span className="font-semibold">Delegación:</span> {getDelegationNameById(delegations, user.companyId)}
+              <span className="font-semibold">Delegación:</span> {getDelegationNameById(delegations, user.delegacion_id)}
             </div>
           )}
         </SidebarContainer>

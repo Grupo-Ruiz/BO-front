@@ -1,8 +1,8 @@
 import { STORAGE_KEYS } from '@/modules/shared/config/api';
 import type { LoginCredentials } from '../types';
 
-import type { AuthUser } from '../types';
 import type { User } from '@/modules/users';
+import type { AuthUser } from '../types';
 
 export interface LoginResponse {
   success: boolean;
@@ -24,7 +24,7 @@ export const loginWithApi = async (credentials: LoginCredentials): Promise<Login
       password: '123456',
       telefono: '+34 600 000 000',
       activo: true,
-      delegacion_id: 1,
+      delegacion_id: 7,
       created_at: '2024-01-01T00:00:00Z',
       updated_at: '2024-01-01T00:00:00Z',
       deleted_at: null
@@ -37,7 +37,7 @@ export const loginWithApi = async (credentials: LoginCredentials): Promise<Login
       password: '123456',
       telefono: '+34 600 111 111',
       activo: true,
-      delegacion_id: 2,
+      delegacion_id: 9,
       created_at: '2024-01-01T00:00:00Z',
       updated_at: '2024-01-01T00:00:00Z',
       deleted_at: null
@@ -45,6 +45,7 @@ export const loginWithApi = async (credentials: LoginCredentials): Promise<Login
   ];
 
   const user = mockUsers.find(u => u.email === credentials.email && credentials.password === u.password);
+
   if (user) {
     // Generar token simulado
     const token = 'mock-token-' + user.id;
@@ -55,8 +56,9 @@ export const loginWithApi = async (credentials: LoginCredentials): Promise<Login
       nombre: user.nombre,
       apellidos: user.apellidos,
       telefono: user.telefono,
-      companyId: credentials.companyId,
+      delegacion_id: credentials.delegacion_id,
     };
+
     const dataToStore = { ...authUser, token };
     localStorage.setItem(STORAGE_KEYS.AUTH_USER, JSON.stringify(dataToStore));
     return {

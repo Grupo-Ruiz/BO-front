@@ -1,20 +1,18 @@
 import { useState } from 'react';
 import { Modal, Button, Input } from '@/modules/shared/components';
 import { HiOutlineUser, HiOutlineEnvelope, HiOutlinePhone, HiOutlineEye, HiOutlineEyeSlash, HiOutlineXMark, HiOutlinePencilSquare, HiOutlinePlusCircle } from 'react-icons/hi2';
+
 import { useUserModalLogic } from '../hooks/useUserModalLogic';
 import type { UserModalProps } from '../types';
 
-function UserModal(props: UserModalProps) {
+function UserModal({ isOpen, onClose, onSave, onEdit, user, mode }: UserModalProps) {
   const {
-    mode,
     formData,
     errors,
     loading,
     handleChange,
     handleSubmit,
-    onClose,
-    isOpen
-  } = useUserModalLogic(props);
+  } = useUserModalLogic({ isOpen, onClose, onSave, onEdit, user, mode });
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -87,54 +85,52 @@ function UserModal(props: UserModalProps) {
             />
           </div>
 
-          {/* Password */}
-          {(mode === 'edit' || mode === 'create')  && (
-            <div className="relative">
-              <Input
-                label="Contraseña"
-                type={showPassword ? 'text' : 'password'}
-                value={formData.password || ''}
-                onChange={handleChange('password')}
-                error={errors.password}
-                placeholder="Contraseña segura"
-                autoComplete="new-password"
-              />
-              <button
-                type="button"
-                tabIndex={-1}
-                className="absolute right-3 top-9 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
-                onClick={() => setShowPassword((v) => !v)}
-                style={{ background: 'none', border: 'none', padding: 0 }}
-                aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
-              >
-                {showPassword ? <HiOutlineEyeSlash className="h-5 w-5" /> : <HiOutlineEye className="h-5 w-5" />}
-              </button>
-            </div>
-          )}
-
-          {/* Confirmar Password */}
-          {(mode === 'edit' || mode === 'create')  && (
-            <div className="relative">
-              <Input
-                label="Confirmar contraseña"
-                type={showConfirmPassword ? 'text' : 'password'}
-                value={formData.confirmPassword || ''}
-                onChange={handleChange('confirmPassword')}
-                error={errors.confirmPassword}
-                placeholder="Repite la contraseña"
-                autoComplete="new-password"
-              />
-              <button
-                type="button"
-                tabIndex={-1}
-                className="absolute right-3 top-9 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
-                onClick={() => setShowConfirmPassword((v) => !v)}
-                style={{ background: 'none', border: 'none', padding: 0 }}
-                aria-label={showConfirmPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
-              >
-                {showConfirmPassword ? <HiOutlineEyeSlash className="h-5 w-5" /> : <HiOutlineEye className="h-5 w-5" />}
-              </button>
-            </div>
+          {/* Password y Confirmar contraseña (solo en create o si se quiere cambiar en edit) */}
+          {(mode === 'create' || mode === 'edit') && (
+            <>
+              <div className="relative">
+                <Input
+                  label="Contraseña"
+                  type={showPassword ? 'text' : 'password'}
+                  value={formData.password || ''}
+                  onChange={handleChange('password')}
+                  error={errors.password}
+                  placeholder="Contraseña segura"
+                  autoComplete="new-password"
+                />
+                <button
+                  type="button"
+                  tabIndex={-1}
+                  className="absolute right-3 top-9 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+                  onClick={() => setShowPassword((v) => !v)}
+                  style={{ background: 'none', border: 'none', padding: 0 }}
+                  aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                >
+                  {showPassword ? <HiOutlineEyeSlash className="h-5 w-5" /> : <HiOutlineEye className="h-5 w-5" />}
+                </button>
+              </div>
+              <div className="relative mt-2">
+                <Input
+                  label="Confirmar contraseña"
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  value={formData.confirmPassword || ''}
+                  onChange={handleChange('confirmPassword')}
+                  error={errors.confirmPassword}
+                  placeholder="Repite la contraseña"
+                  autoComplete="new-password"
+                />
+                <button
+                  type="button"
+                  tabIndex={-1}
+                  className="absolute right-3 top-9 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+                  onClick={() => setShowConfirmPassword((v) => !v)}
+                  style={{ background: 'none', border: 'none', padding: 0 }}
+                  aria-label={showConfirmPassword ? 'Ocultar confirmación' : 'Mostrar confirmación'}
+                >
+                  {showConfirmPassword ? <HiOutlineEyeSlash className="h-5 w-5" /> : <HiOutlineEye className="h-5 w-5" />}
+                </button>
+              </div>
+            </>
           )}
 
           {/* Estado (en modo edición y visualización) */}
@@ -145,7 +141,7 @@ function UserModal(props: UserModalProps) {
               </label>
               <select
                 value={formData.activo ? 'activo' : 'inactivo'}
-                onChange={(e) => handleChange('activo')(e.target.value === 'activo' ? 'true' : 'false')}
+                onChange={(e) => handleChange('activo')(e.target.value === 'activo')}
                 disabled={mode === 'view'}
                 className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors ${
                   mode === 'view'
@@ -162,6 +158,7 @@ function UserModal(props: UserModalProps) {
             </div>
           )}
         </div>
+
         {/* Botones */}
         <div className="flex justify-end gap-3 pt-6 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 rounded-b-lg">
           <Button

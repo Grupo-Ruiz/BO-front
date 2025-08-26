@@ -26,14 +26,8 @@ export const usersApi = {
   },
 
   // Actualizar usuario (PUT)
-  update: async (id: string, userData: UpdateUserData): Promise<User> => {
+  update: async (id: number, userData: UpdateUserData): Promise<User> => {
     const response = await usersApiClient.put(`${BASE_URL}/users/${id}`, userData);
-    return response.data;
-  },
-
-  // Actualización parcial de usuario (PATCH)
-  patch: async (id: string, userData: Partial<UpdateUserData>): Promise<User> => {
-    const response = await usersApiClient.patch(`${BASE_URL}/users/${id}`, userData);
     return response.data;
   },
 

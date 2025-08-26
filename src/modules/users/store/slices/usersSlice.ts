@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { UsersListState } from '../../types';
-import { createUser, fetchUsers } from '../thunks/usersThunks';
+import { fetchUsers } from '../thunks/usersThunks';
 
 const initialState: UsersListState = {
   users: [],
@@ -42,17 +42,6 @@ const usersSlice = createSlice({
           state.isLoading = false;
           state.error = action.payload as { status: number; message: string };
         })
-
-      //Funciones para gestionar la creacion de usuarios
-        .addCase(createUser.pending, (state) => {
-          state.isLoading = true;
-        })
-        .addCase(createUser.fulfilled, (state) => {
-          state.isLoading = false;
-        })
-        .addCase(createUser.rejected, (state) => {
-          state.isLoading = false;
-        });
   }
 });
 

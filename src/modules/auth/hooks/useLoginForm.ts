@@ -3,7 +3,7 @@ import type { LoginCredentials, UseLoginFormProps } from '../types/index';
 
 export function useLoginForm({ onSubmit, initialValues }: UseLoginFormProps) {
   const [credentials, setCredentials] = useState<LoginCredentials>(
-    initialValues || { email: '', password: '', companyId: '' }
+    initialValues || { email: '', password: '', delegacion_id: 0 }
   );
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
@@ -12,14 +12,17 @@ export function useLoginForm({ onSubmit, initialValues }: UseLoginFormProps) {
   const handleChange = (field: keyof LoginCredentials) => (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    setCredentials((prev) => ({ ...prev, [field]: e.target.value }));
+    setCredentials((prev) => ({
+      ...prev,
+      [field]: field === 'delegacion_id' ? Number(e.target.value) : e.target.value
+    }));
     if (error) setError('');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    if (!credentials.email || !credentials.password || !credentials.companyId) {
+    if (!credentials.email || !credentials.password || !credentials.delegacion_id) {
       setError('Por favor, completa todos los campos');
       return;
     }

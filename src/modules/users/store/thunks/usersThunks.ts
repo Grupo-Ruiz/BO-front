@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { usersApi } from '../api/usersApi';
-import type { CreateUserData, UserFilters } from '../../types';
+import type { CreateUserData, UpdateUserData, UserFilters } from '../../types';
 
 export const fetchUsers = createAsyncThunk(
   'users/fetchUsers',
@@ -37,6 +37,32 @@ export const createUser = createAsyncThunk(
         return rejectWithValue({
           status: error.response.status,
           message: error.response.data?.msg || 'Error al crear el usuario',
+        });
+      }
+      // Otro tipo de error (red, etc)
+      return rejectWithValue({
+        status: 0,
+        message: error.message || 'Error desconocido',
+      });
+    }
+  }
+);
+
+export const updateUser = createAsyncThunk(
+  'users/updateUser',
+  async (
+    args: { userData: UpdateUserData; id: number },
+    { rejectWithValue }
+  ) => {
+    try {
+      const data = await usersApi.update(args.id, args.userData);
+      return data;
+    } catch (error: any) {
+      // Si error.response existe, es un error HTTP
+      if (error.response && error.response.data) {
+        return rejectWithValue({
+          status: error.response.status,
+          message: error.response.data?.msg || 'Error al editar el usuario',
         });
       }
       // Otro tipo de error (red, etc)
