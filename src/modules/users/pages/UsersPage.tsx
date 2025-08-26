@@ -28,6 +28,7 @@ export default function UsersPage() {
     handleModalSave,
     handleModalEdit,
   } = useUserFunctions();
+  
   // Filtros locales
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
@@ -124,7 +125,10 @@ export default function UsersPage() {
             </label>
             <select
               value={perPage}
-              onChange={e => setPerPage(Number(e.target.value))}
+              onChange={e => {
+                setPage(1);
+                setPerPage(Number(e.target.value));
+              }}
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"
             >
               <option value={5}>5 por página</option>
@@ -185,7 +189,7 @@ export default function UsersPage() {
                 <thead className="bg-gray-50 dark:bg-gray-700">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      Empleado
+                      Usuario
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                       Contacto
@@ -274,14 +278,14 @@ export default function UsersPage() {
                             <button
                               onClick={() => handleEditUser(user)}
                               className="p-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 hover:text-blue-900 dark:bg-blue-900/30 dark:text-blue-300 dark:hover:bg-blue-900/60 dark:hover:text-white transition"
-                              title="Editar empleado"
+                              title="Editar usuario"
                             >
                               <HiOutlinePencil className="h-4 w-4" />
                             </button>
                             <button
-                              onClick={handleDeleteUser}
+                              onClick={() => handleDeleteUser(user.id)}
                               className="p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 hover:text-red-900 dark:bg-red-900/30 dark:text-red-300 dark:hover:bg-red-900/60 dark:hover:text-white transition"
-                              title="Eliminar empleado"
+                              title="Eliminar usuario"
                             >
                               <HiOutlineTrash className="h-4 w-4" />
                             </button>
