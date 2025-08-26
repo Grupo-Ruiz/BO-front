@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Swal from 'sweetalert2';
-import { useAppDispatch } from '@/hooks';
+import { useAppDispatch } from '@/modules/shared/store/hooks';
 import { fetchUsers, createUser, updateUser, deleteUser } from '../store/thunks/usersThunks';
 import type { User } from '../index';
 import type { UserEditFormData, UserFormData } from '../types';

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
+import { IoMdArrowDropup } from 'react-icons/io';
 import { UserModal } from '../index';
-import { useAppSelector, useAppDispatch } from '@/hooks';
+import { useAppSelector, useAppDispatch } from '@/modules/shared/store/hooks';
 import { Button } from '@/modules/shared/components';
 import { HiOutlinePencil, HiOutlineTrash, HiOutlinePlus, HiOutlineEnvelope, HiOutlinePhone, HiOutlineMagnifyingGlass, HiOutlineChevronLeft, HiOutlineChevronRight } from 'react-icons/hi2';
 import { fetchUsers } from '../store/thunks/usersThunks';
@@ -39,6 +40,17 @@ export default function UsersPage() {
   const [orderDir, setOrderDir] = useState('desc');
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
+
+  // Función reutilizable para ordenar columnas
+  const handleSort = (field: string) => {
+    if (orderBy === field) {
+      setOrderDir(orderDir === 'asc' ? 'desc' : 'asc');
+    } else {
+      setOrderBy(field);
+      setOrderDir('asc');
+    }
+    setPage(1);
+  };
 
   // Debounce para el campo de búsqueda
   useEffect(() => {
@@ -188,18 +200,49 @@ export default function UsersPage() {
               <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                 <thead className="bg-gray-50 dark:bg-gray-700">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      Usuario
+                    <th
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer select-none" onClick={() => handleSort('nombre')}>
+                      <span className="flex items-center gap-1">
+                        Usuario
+                        {orderBy === 'nombre' && (
+                          <IoMdArrowDropup
+                            className={`inline ml-1 transition-transform ${orderDir === 'desc' ? 'rotate-180' : ''}`}
+                          />
+                        )}
+                      </span>
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      Contacto
+                    <th
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer select-none" onClick={() => handleSort('email')}>
+                      <span className="flex items-center gap-1">
+                        Contacto
+                        {orderBy === 'email' && (
+                          <IoMdArrowDropup
+                            className={`inline ml-1 transition-transform ${orderDir === 'desc' ? 'rotate-180' : ''}`}
+                          />
+                        )}
+                      </span>
                     </th>
-
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      Estado
+                    <th
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer select-none" onClick={() => handleSort('estado')}>
+                      <span className="flex items-center gap-1">
+                        Estado
+                        {orderBy === 'estado' && (
+                          <IoMdArrowDropup
+                            className={`inline ml-1 transition-transform ${orderDir === 'desc' ? 'rotate-180' : ''}`}
+                          />
+                        )}
+                      </span>
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      Fecha de Creación
+                    <th
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer select-none" onClick={() => handleSort('created_at')}>
+                      <span className="flex items-center gap-1">
+                        Fecha de Creación
+                        {orderBy === 'created_at' && (
+                          <IoMdArrowDropup
+                            className={`inline ml-1 transition-transform ${orderDir === 'desc' ? 'rotate-180' : ''}`}
+                          />
+                        )}
+                      </span>
                     </th>
                     <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                       Acciones

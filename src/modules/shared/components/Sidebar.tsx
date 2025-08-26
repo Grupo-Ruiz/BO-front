@@ -3,9 +3,9 @@ import { useEffect } from 'react';
 import { useAuth } from '../../auth/services/AuthContext';
 import { HiOutlineHome, HiOutlineUsers, HiOutlineUserGroup, HiOutlineCreditCard, HiOutlineChartBar, HiOutlineQuestionMarkCircle, HiOutlineXMark } from 'react-icons/hi2';
 import { getDelegations } from '../store/thunks/delegationsThunks';
-import { useAppDispatch, useAppSelector } from '@/hooks';
-import type { RootState } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/modules/shared/store/hooks';
 import { getDelegationNameById } from '@/utils';
+import type { RootState } from '../store';
 
 // Ejemplo de uso en el render:
 const navigation = [
