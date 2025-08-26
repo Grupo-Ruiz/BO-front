@@ -26,6 +26,7 @@ export default function UsersPage() {
     handleEditUser,
     handleDeleteUser,
     handleModalSave,
+    handleModalEdit,
   } = useUserFunctions();
   // Filtros locales
   const [searchTerm, setSearchTerm] = useState('');
@@ -334,6 +335,7 @@ export default function UsersPage() {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSave={handleModalSave}
+        onEdit={handleModalEdit}
         user={selectedUser}
         mode={modalMode}
       />

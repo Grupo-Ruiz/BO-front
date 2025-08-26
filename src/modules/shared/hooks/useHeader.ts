@@ -17,7 +17,7 @@ export function useHeader(props: { sidebarOpen?: boolean; setSidebarOpen?: (open
         nombre: user.nombre,
         apellidos: user.apellidos,
         email: user.email,
-        telefono: user.telefono,
+        telefono: user.telefono ?? '',
         password: '', // No enviamos la contraseña
         activo: true,
         created_at: '',

@@ -2,22 +2,28 @@
 export interface UserModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave?: (formData: UserFormData, userId?: number) => Promise<void> | void;
+  onSave?: (formData: UserFormData) => Promise<void> | void; // Solo para crear
+  onEdit?: (formData: UserFormData, userId: number) => Promise<void> | void; // Solo para editar
   user?: User | null;
   mode: 'create' | 'edit' | 'view';
 }
 
 // Solo los campos editables en el formulario
+// Para crear usuario
 export interface UserFormData {
+  id?: number; // Solo para edición
   nombre: string;
   apellidos: string;
   email: string;
   telefono: string;
-  password: string;
+  password?: string;
   confirmPassword?: string;
   delegacion_id?: number; // Solo para crear/editar, no se muestra en el modal de vista
   activo?: boolean; // Solo para crear/editar, no se muestra en el modal de vista
 }
+
+// Para editar usuario (sin confirmPassword)
+export type UserEditFormData = Omit<UserFormData, 'confirmPassword'>;
 
 export interface UseUserModalLogic {
   mode: UserModalProps['mode'];
@@ -57,8 +63,12 @@ export interface CreateUserData {
 }
 
 export interface UpdateUserData {
-  name?: string;
-  email?: string;
+  nombre: string;
+  apellidos: string;
+  email: string;
+  telefono: string;
+  password: string;
+  activo: string;
   delegacion_id?: number;
 }
 

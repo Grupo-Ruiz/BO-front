@@ -6,7 +6,6 @@ import { ModuleProviders } from './providers/ModuleProviders';
 import { AppRoutes } from './routes';
 import { ReduxProvider } from './providers/ReduxProvider';
 
-
 function App() {
   return (
     <ReduxProvider>

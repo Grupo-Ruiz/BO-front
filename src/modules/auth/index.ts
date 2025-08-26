@@ -14,4 +14,4 @@ export { AuthProvider } from './services/AuthContext';
 export { AuthRoutes, LoginPage } from './routes';
 
 // Types
-export type { AuthUser, LoginCredentials, AuthState } from './types';
+export type { LoginCredentials, AuthState } from './types';

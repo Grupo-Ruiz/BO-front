@@ -1,3 +1,13 @@
+
+// Usuario autenticado para AuthContext y servicios de auth
+export interface AuthUser {
+  id: string;
+  email: string;
+  nombre: string;
+  apellidos: string;
+  telefono?: string;
+  delegacion_id: number;
+}
 export interface AuthContextType {
   user: AuthUser | null;
   isAuthenticated: boolean;
@@ -9,7 +19,6 @@ export interface AuthContextType {
 export interface AuthProviderProps {
   children: React.ReactNode;
 }
-import type { Company } from '@/modules/shared/data/companies';
 
 export interface UseLoginFormProps {
   onSubmit: (credentials: LoginCredentials) => Promise<boolean>;
@@ -25,24 +34,13 @@ export interface LoginFormProps {
   isLoading?: boolean;
 }
 
-export interface AuthUser {
-  id: string;
-  email: string;
-  nombre: string;
-  apellidos: string;
-  telefono: string;
-  companyId: string;
-  company?: Company;
-}
-
 export interface LoginCredentials {
   email: string;
   password: string;
-  companyId: string;
+  delegacion_id: number;
 }
 
 export interface AuthState {
-  user: AuthUser | null;
   isAuthenticated: boolean;
   isLoading: boolean;
 }

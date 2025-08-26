@@ -48,7 +48,6 @@ export function useAuthProvider(): AuthContextType {
       if (result.success && result.user) {
         setUser(result.user);
         localStorage.setItem(STORAGE_KEYS.AUTH_USER, JSON.stringify(result.user));
-        localStorage.setItem('COMPANY_ID', result.user.companyId);
         return true;
       }
       return false;

@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import Swal from 'sweetalert2';
 import { useAppDispatch } from '@/hooks';
-import { fetchUsers, createUser } from '../store/thunks/usersThunks';
-import type { User, CreateUserData } from '../index';
+import { fetchUsers, createUser, updateUser } from '../store/thunks/usersThunks';
+import type { User } from '../index';
+import type { UserEditFormData, UserFormData } from '../types';
 
 export function useUserFunctions() {
   const dispatch = useAppDispatch();
@@ -54,27 +55,14 @@ export function useUserFunctions() {
     }
   };
 
-  const handleModalSave = async (formData: CreateUserData) => {
-    if (modalMode === 'create') {
-      try {
-        await dispatch(createUser(formData)).unwrap();
+  // Solo para crear
+  const handleModalSave = async (formData: UserFormData) => {
+    try {
+      // Validar confirmación de contraseña
+      if (formData.password !== formData.confirmPassword) {
         await Swal.fire({
-          title: 'Usuario creado',
-          text: 'El nuevo usuario ha sido creado exitosamente.',
-          icon: 'success',
-          confirmButtonText: '<span class="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 transition font-bold">OK</span>',
-          buttonsStyling: false,
-          customClass: {
-            confirmButton: '',
-            popup: 'dark:bg-gray-800 dark:text-white',
-          },
-        });
-        setIsModalOpen(false);
-        dispatch(fetchUsers({}));
-      } catch (error: any) {
-        Swal.fire({
           title: 'Error',
-          text: error?.message || 'No se pudo crear el usuario',
+          html: '<p>Las contraseñas no coinciden</p>',
           icon: 'error',
           confirmButtonText: '<span class="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700 transition font-bold">OK</span>',
           buttonsStyling: false,
@@ -83,9 +71,72 @@ export function useUserFunctions() {
             popup: 'dark:bg-gray-800 dark:text-white',
           },
         });
+        return;
       }
-    } else if (modalMode === 'edit') {
-      // Aquí irá la lógica de edición
+      const { confirmPassword, ...dataToSend } = formData;
+
+      await dispatch(createUser(dataToSend)).unwrap();
+      await Swal.fire({
+        title: 'Usuario creado',
+        text: 'El nuevo usuario ha sido creado exitosamente.',
+        html: '<p>Al dar click en "OK", se cerrará esta ventana y se recargara el listado.</p>',
+        icon: 'success',
+        confirmButtonText: '<span class="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 transition font-bold">OK</span>',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: '',
+          popup: 'dark:bg-gray-800 dark:text-white',
+        },
+      });
+      setIsModalOpen(false);
+      dispatch(fetchUsers({}));
+    } catch (error: any) {
+      Swal.fire({
+        title: 'Error',
+        html: '<p>' + (error?.message || 'No se pudo crear el usuario') + '</p>',
+        icon: 'error',
+        confirmButtonText: '<span class="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700 transition font-bold">OK</span>',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: '',
+          popup: 'dark:bg-gray-800 dark:text-white',
+        },
+      });
+    }
+  };
+
+  // Solo para editar
+  const handleModalEdit = async (formData: UserEditFormData, userId: number) => {
+    try {
+      const { id, confirmPassword, ...dataToSend } = formData as UserEditFormData;
+
+      await dispatch(updateUser({ userData: dataToSend, id: userId })).unwrap();
+      await Swal.fire({
+        title: 'Usuario actualizado',
+        text: 'El usuario ha sido actualizado exitosamente.',
+        html: '<p>Al dar click en "OK", se cerrará esta ventana y se recargara el listado.</p>',
+        icon: 'success',
+        confirmButtonText: '<span class="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 transition font-bold">OK</span>',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: '',
+          popup: 'dark:bg-gray-800 dark:text-white',
+        },
+      });
+      setIsModalOpen(false);
+      dispatch(fetchUsers({}));
+    } catch (error: any) {
+      Swal.fire({
+        title: 'Error',
+        html: '<p>' + (error?.message || 'No se pudo editar el usuario') + '</p>',
+        icon: 'error',
+        confirmButtonText: '<span class="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700 transition font-bold">OK</span>',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: '',
+          popup: 'dark:bg-gray-800 dark:text-white',
+        },
+      });
     }
   };
 
@@ -100,5 +151,6 @@ export function useUserFunctions() {
     handleEditUser,
     handleDeleteUser,
     handleModalSave,
+    handleModalEdit,
   };
 }
