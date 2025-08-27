@@ -1,43 +1,17 @@
-// Tipos para el UserModal y su lógica
-export interface UserModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onSave?: (formData: UserFormData) => Promise<void> | void; // Solo para crear
-  onEdit?: (formData: UserFormData, userId: number) => Promise<void> | void; // Solo para editar
+// =====================
+// Custom hook props
+// =====================
+
+export interface UseUserFormProps {
   user?: User | null;
-  mode: 'create' | 'edit' | 'view';
+  mode: 'create' | 'edit';
+  delegationId?: number;
 }
 
-// Solo los campos editables en el formulario
-// Para crear usuario
-export interface UserFormData {
-  id?: number; // Solo para edición
-  nombre: string;
-  apellidos: string;
-  email: string;
-  telefono: string;
-  password?: string;
-  confirmPassword?: string;
-  delegacion_id?: number; // Solo para crear/editar, no se muestra en el modal de vista
-  activo?: boolean; // Solo para crear/editar, no se muestra en el modal de vista
-}
+// =====================
+// User entity & API types
+// =====================
 
-// Para editar usuario (sin confirmPassword)
-export type UserEditFormData = Omit<UserFormData, 'confirmPassword'>;
-
-export interface UseUserModalLogic {
-  mode: UserModalProps['mode'];
-  formData: UserFormData;
-  errors: Record<string, string>;
-  loading: boolean;
-  handleChange: (field: keyof UserFormData) => (value: string | boolean) => void;
-  handleSubmit: (e: React.FormEvent) => Promise<void>;
-  onClose: () => void;
-  user?: User | null;
-  isOpen: boolean;
-}
-
-// Tipado global de usuario para toda la app (coincide con la API)
 export interface User {
   id: number;
   nombre: string;
@@ -52,7 +26,20 @@ export interface User {
   deleted_at?: string | null;
 }
 
-// Tipos para la API de usuarios
+export interface UserFormData {
+  id?: number;
+  nombre: string;
+  apellidos: string;
+  email: string;
+  telefono: string;
+  password?: string;
+  confirmPassword?: string;
+  delegacion_id?: number;
+  activo?: boolean;
+}
+
+export type UserEditFormData = Omit<UserFormData, 'confirmPassword'>;
+
 export interface CreateUserData {
   nombre: string;
   apellidos: string;
@@ -73,19 +60,38 @@ export interface UpdateUserData {
   delegacion_id?: number;
 }
 
-// Listado de usuarios con paginación
+// =====================
+// Modal & UI logic types
+// =====================
+
+export interface UserModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSave?: (formData: UserFormData) => Promise<void> | void;
+  onEdit?: (formData: UserFormData, userId: number) => Promise<void> | void;
+  user?: User | null;
+  mode: 'create' | 'edit' | 'view';
+}
+
+export interface UseUserModalLogic {
+  mode: UserModalProps['mode'];
+  formData: UserFormData;
+  errors: Record<string, string>;
+  loading: boolean;
+  handleChange: (field: keyof UserFormData) => (value: string | boolean) => void;
+  handleSubmit: (e: React.FormEvent) => Promise<void>;
+  onClose: () => void;
+  user?: User | null;
+  isOpen: boolean;
+}
+
+// =====================
+// State, error, filters & pagination
+// =====================
+
 export interface UsersListError {
   status: number;
   message: string;
-}
-
-export interface UsersListState {
-  users: any[];
-  isLoading: boolean;
-  error: UsersListError | null;
-  filters: UserFilters;
-  selectedUser: any | null;
-  pagination?: UsersPaginationMeta;
 }
 
 export interface UserFilters {
@@ -99,7 +105,6 @@ export interface UserFilters {
   pagination?: number;
 }
 
-// Meta de paginación para la respuesta paginada
 export interface UsersPaginationMeta {
   include_deleted: boolean;
   only_active: boolean;
@@ -109,8 +114,54 @@ export interface UsersPaginationMeta {
   total: number;
 }
 
-// Respuesta paginada de usuarios
 export interface UsersPaginatedResponse {
   data: User[];
   meta: UsersPaginationMeta;
+}
+
+export interface UsersListState {
+  users: User[];
+  isLoading: boolean;
+  error: UsersListError | null;
+  filters: UserFilters;
+  selectedUser: User | null;
+  pagination?: UsersPaginationMeta;
+}
+
+// =====================
+// Component props types (Table, Pagination, Filters)
+// =====================
+
+export interface TableProps {
+  users: User[];
+  isLoading: boolean;
+  error: UsersListError | null;
+  orderBy: string;
+  orderDir: string;
+  handleSort: (field: string) => void;
+  includeDeleted: boolean;
+  formatDate: (date: string) => string;
+  getStatusBadge: (activo: boolean) => { className: string; text: string };
+  handleEditUser: (user: User) => void;
+  handleDeleteUser: (id: number) => void;
+  handleRestoreUser: (id: number) => void;
+}
+
+export interface PaginationProps {
+  pagination?: UsersPaginationMeta;
+  page: number;
+  setPage: (v: number) => void;
+}
+
+export interface FiltersProps {
+  searchTerm: string;
+  setSearchTerm: (v: string) => void;
+  perPage: number;
+  setPerPage: (v: number) => void;
+  selectedStatus: string;
+  setSelectedStatus: (v: string) => void;
+  includeDeleted: boolean;
+  setIncludeDeleted: (v: boolean) => void;
+  onSearch: (e: React.FormEvent) => void;
+  onClear: () => void;
 }

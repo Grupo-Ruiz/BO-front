@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Modal, Button, Input } from '@/modules/shared/components';
 import { HiOutlineUser, HiOutlineEnvelope, HiOutlinePhone, HiOutlineEye, HiOutlineEyeSlash, HiOutlineXMark, HiOutlinePencilSquare, HiOutlinePlusCircle } from 'react-icons/hi2';
-
 import { useUserModalLogic } from '../hooks/useUserModalLogic';
 import type { UserModalProps } from '../types';
 
