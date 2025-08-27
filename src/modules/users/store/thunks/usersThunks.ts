@@ -98,3 +98,28 @@ export const deleteUser = createAsyncThunk(
     }
   }
 );
+
+export const restoreUser = createAsyncThunk(
+  'users/restoreUser',
+  async (    
+    args: { id: number },
+    { rejectWithValue }) => {
+    try {
+      const data = await usersApi.restore(args.id);
+      return data;
+    } catch (error: any) {
+      // Si error.response existe, es un error HTTP
+      if (error.response) {
+        return rejectWithValue({
+          status: error.response.status,
+          message: error.response.data?.msg || 'Error al restaurar el usuario',
+        });
+      }
+      // Otro tipo de error (red, etc)
+      return rejectWithValue({
+        status: 0,
+        message: error.message || 'Error desconocido',
+      });
+    }
+  }
+);

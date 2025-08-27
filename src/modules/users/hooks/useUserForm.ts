@@ -1,11 +1,5 @@
 import { useState, useEffect } from 'react';
-import type { User, UserFormData } from '../types';
-
-interface UseUserFormProps {
-  user?: User | null;
-  mode: 'create' | 'edit';
-  delegationId?: number;
-}
+import type { UserFormData, UseUserFormProps } from '../types';
 
 export function useUserForm({ user, mode, delegationId }: UseUserFormProps) {
   const [formData, setFormData] = useState<UserFormData>({
