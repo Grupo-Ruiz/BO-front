@@ -13,15 +13,17 @@ export function useHeader(props: { sidebarOpen?: boolean; setSidebarOpen?: (open
   const handleProfileClick = () => {    
     if (user) {
       const userForModal: User = {
-        id: Number(user.id),
+        id: typeof user.id === 'string' ? parseInt(user.id) : user.id,
         nombre: user.nombre,
         apellidos: user.apellidos,
         email: user.email,
         telefono: user.telefono ?? '',
         password: '', // No enviamos la contraseña
         activo: true,
+        delegacion_id: user.delegacion_id ?? undefined,
         created_at: '',
         updated_at: '',
+        deleted_at: null,
       };
       openModal('view', userForModal);
     }

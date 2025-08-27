@@ -21,7 +21,7 @@ export function useUserModalLogic(props: UserModalProps): UseUserModalLogic {
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    if (isOpen && mode === 'edit' && user) {
+    if (isOpen && (mode === 'edit' || mode === 'view') && user) {
       setFormData({
         id: user.id,
         nombre: user.nombre || '',
@@ -33,7 +33,6 @@ export function useUserModalLogic(props: UserModalProps): UseUserModalLogic {
         activo: user.activo ?? true,
       });
       setErrors({});
-
     } else if (isOpen && mode === 'create') {
       setFormData({
         nombre: '',
