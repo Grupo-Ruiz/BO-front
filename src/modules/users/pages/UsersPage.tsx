@@ -3,7 +3,7 @@ import { IoMdArrowDropup } from 'react-icons/io';
 import { UserModal } from '../index';
 import { useAppSelector, useAppDispatch } from '@/modules/shared/store/hooks';
 import { Button } from '@/modules/shared/components';
-import { HiOutlinePencil, HiOutlineTrash, HiOutlinePlus, HiOutlineEnvelope, HiOutlinePhone, HiOutlineMagnifyingGlass, HiOutlineChevronLeft, HiOutlineChevronRight } from 'react-icons/hi2';
+import { HiOutlinePencil, HiOutlineTrash, HiOutlinePlus, HiOutlineEnvelope, HiOutlinePhone, HiOutlineMagnifyingGlass, HiOutlineChevronLeft, HiOutlineChevronRight, HiOutlineEye, HiOutlineEyeSlash } from 'react-icons/hi2';
 import { fetchUsers } from '../store/thunks/usersThunks';
 import { formatDate, getStatusBadge, handlePageChangeFactory } from '@/utils';
 import { PiBroom } from 'react-icons/pi';
@@ -38,6 +38,7 @@ export default function UsersPage() {
   const [delegacionId, setDelegacionId] = useState('');
   const [orderBy, setOrderBy] = useState('created_at');
   const [orderDir, setOrderDir] = useState('desc');
+  const [includeDeleted, setIncludeDeleted] = useState(false);
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
 
@@ -73,9 +74,10 @@ export default function UsersPage() {
       delegacion_id: delegacionId || undefined,
       order_by: orderBy,
       order_dir: orderDir,
+      include_deleted: includeDeleted,
     };
     dispatch(fetchUsers({ filters }));
-  }, [dispatch, debouncedSearch, selectedStatus, delegacionId, orderBy, orderDir, page, perPage]);
+  }, [dispatch, debouncedSearch, selectedStatus, delegacionId, orderBy, orderDir, page, perPage, includeDeleted]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -90,6 +92,7 @@ export default function UsersPage() {
     setOrderDir('desc');
     setPage(1);
     setPerPage(10);
+    setIncludeDeleted(false);
   };
 
   return (
@@ -166,6 +169,23 @@ export default function UsersPage() {
             </select>
           </div>
 
+          <div className="md:w-48">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Eliminados</label>
+            <div className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 flex items-center gap-3 shadow-sm">
+              <span
+                role="button"
+                tabIndex={0}
+                onClick={() => setIncludeDeleted(!includeDeleted)}
+                className={`flex items-center gap-2 cursor-pointer select-none transition-colors ${includeDeleted ? 'text-blue-600 dark:text-blue-400' : 'text-gray-400 dark:text-gray-500'}`}
+              >
+                {includeDeleted ? (<HiOutlineEye className="h-5 w-5"/>) : (<HiOutlineEyeSlash className="h-5 w-5"/>)}
+                <span className="text-sm font-semibold">
+                  {includeDeleted ? 'Mostrando' : 'Sin mostrar'}
+                </span>
+              </span>
+            </div>
+          </div>
+
           <div className="flex gap-2">
             <button
               type="submit"
@@ -198,6 +218,8 @@ export default function UsersPage() {
               </div>
             ) : (
               <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+
+                {/* Encabezado de la tabla */}
                 <thead className="bg-gray-50 dark:bg-gray-700">
                   <tr>
                     <th
@@ -230,9 +252,22 @@ export default function UsersPage() {
                           <IoMdArrowDropup
                             className={`inline ml-1 transition-transform ${orderDir === 'desc' ? 'rotate-180' : ''}`}
                           />
-                        )}
+                        )}  
                       </span>
                     </th>
+                    {includeDeleted && (
+                      <th
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer select-none" onClick={() => handleSort('deleted_at')}>
+                        <span className="flex items-center gap-1">
+                          Fecha de Eliminación
+                          {orderBy === 'deleted_at' && (
+                            <IoMdArrowDropup
+                              className={`inline ml-1 transition-transform ${orderDir === 'desc' ? 'rotate-180' : ''}`}
+                            />
+                          )}
+                        </span>
+                      </th>
+                    )}
                     <th
                       className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer select-none" onClick={() => handleSort('created_at')}>
                       <span className="flex items-center gap-1">
@@ -249,6 +284,8 @@ export default function UsersPage() {
                     </th>
                   </tr>
                 </thead>
+
+                {/* Contenido de la tabla */}
                 <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                   {error ? (
                     <tr>
@@ -270,6 +307,8 @@ export default function UsersPage() {
                   ) : (
                     users.map((user) => (
                       <tr key={user.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+
+                        {/* Nombre del usuario */}
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
                             <div className="flex-shrink-0 h-10 w-10">
@@ -286,6 +325,8 @@ export default function UsersPage() {
                             </div>
                           </div>
                         </td>
+
+                        {/* Datos de contacto */}
                         <td className="px-6 py-4 whitespace-nowrap align-middle">
                           <div className="flex flex-col gap-1">
                             <div className="flex items-center gap-2 text-sm text-gray-900 dark:text-white">
@@ -305,6 +346,7 @@ export default function UsersPage() {
                           </div>
                         </td>
 
+                        {/* Estado */}
                         <td className="px-6 py-4 whitespace-nowrap">
                           {(() => {
                             const badge = getStatusBadge(user.activo);
@@ -313,9 +355,20 @@ export default function UsersPage() {
                             );
                           })()}
                         </td>
+
+                        {/* Fecha de eliminación, si estas viendo usuarios eliminados */}
+                        {includeDeleted && (
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                            {user.deleted_at ? formatDate(user.deleted_at) : 'Sin fecha de eliminación'}
+                          </td>
+                        )}
+
+                        {/* Fecha de creación */}
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                           {user.created_at ? formatDate(user.created_at) : 'Sin fecha de creación'}
                         </td>
+                      
+                        {/* Acciones del listado */}
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                           <div className="flex justify-end space-x-2">
                             <button

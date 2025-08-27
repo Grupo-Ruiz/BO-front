@@ -28,20 +28,20 @@ const usersSlice = createSlice({
   extraReducers: (builder) => {
     builder
       //Funciones para gestionar el listado de usuarios
-        .addCase(fetchUsers.pending, (state) => {
-          state.isLoading = true;
-          state.error = null;
-        })
-        .addCase(fetchUsers.fulfilled, (state, action) => {
-          state.isLoading = false;
-          state.users = action.payload.data;
-          state.pagination = action.payload.meta;
-          state.error = null;
-        })
-        .addCase(fetchUsers.rejected, (state, action) => {
-          state.isLoading = false;
-          state.error = action.payload as { status: number; message: string };
-        })
+      .addCase(fetchUsers.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchUsers.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.users = action.payload.data;
+        state.pagination = action.payload.meta;
+        state.error = null;
+      })
+      .addCase(fetchUsers.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as { status: number; message: string };
+      })
   }
 });
 
