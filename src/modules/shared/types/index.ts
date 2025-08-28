@@ -61,7 +61,6 @@ export interface KPI {
   userType?: string;
 }
 
-
 export interface FAQ {
   id: string;
   question: string;
@@ -73,7 +72,6 @@ export interface FAQ {
   category?: string;
 }
 
-
 export interface WalletOperation {
   id: string;
   type: string;
@@ -83,7 +81,6 @@ export interface WalletOperation {
   timestamp?: string;
   userName?: string;
 }
-
 
 export interface Payment {
   id: string;
@@ -96,7 +93,6 @@ export interface Payment {
   userName?: string;
 }
 
-
 export interface Operation {
   id: string;
   description: string;
@@ -105,7 +101,6 @@ export interface Operation {
   userId?: string;
   userName?: string;
 }
-
 
 export interface SAEOperation {
   id: string;
@@ -121,9 +116,6 @@ export interface SAEOperation {
   status?: string;
   saeReference?: string;
 }
-
-
-
 
 // Tipos compartidos para componentes
 export interface HeaderProps {

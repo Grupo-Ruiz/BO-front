@@ -293,7 +293,11 @@ export class MockAPIService {
   static async deleteFAQ(id: string): Promise<void> {
     await this.delay(500);
     // Mock deletion - in real implementation, would delete FAQ with this id
-    console.log(`Deleting FAQ with id: ${id}`);
+    const faqs = generateMockFAQs();
+    const faqIndex = faqs.findIndex(faq => faq.id === id);
+    if (faqIndex !== -1) {
+      faqs.splice(faqIndex, 1);
+    }
   }
 
   // KPIs

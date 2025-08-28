@@ -7,7 +7,6 @@ export function useUserModalLogic(props: UserModalProps): UseUserModalLogic {
   const { isOpen, onClose, onSave, onEdit, user, mode } = props;
   const { user: userAuth } = useAuth() as { user?: AuthUser };
   const delegationId = userAuth?.delegacion_id;
-
   const [formData, setFormData] = useState<UserFormData>({
     id: user?.id,
     nombre: user?.nombre || '',
@@ -22,7 +21,7 @@ export function useUserModalLogic(props: UserModalProps): UseUserModalLogic {
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    if (isOpen && mode === 'edit' && user) {
+    if (isOpen && (mode === 'edit' || mode === 'view') && user) {
       setFormData({
         id: user.id,
         nombre: user.nombre || '',
@@ -84,7 +83,7 @@ export function useUserModalLogic(props: UserModalProps): UseUserModalLogic {
   const handleChange = (field: keyof UserFormData) => (value: string | boolean) => {
     setFormData(prev => ({
       ...prev,
-      [field]: field === 'activo' ? Boolean(value) : value,
+      [field]: value,
     }));
     if (errors[field]) setErrors(prev => ({ ...prev, [field]: '' }));
   };

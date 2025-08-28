@@ -32,12 +32,12 @@ export const usersApi = {
   },
 
   // Eliminar usuario (soft delete)
-  delete: async (id: string): Promise<void> => {
+  delete: async (id: number): Promise<void> => {
     await usersApiClient.delete(`${BASE_URL}/users/${id}`);
   },
 
   // Restaurar usuario soft-deleted
-  restore: async (id: string): Promise<void> => {
+  restore: async (id: number): Promise<void> => {
     await usersApiClient.post(`${BASE_URL}/users/${id}/restore`);
   },
 };
