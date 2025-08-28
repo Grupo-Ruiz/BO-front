@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import Swal from 'sweetalert2';
-import { useAppDispatch } from '@/modules/shared/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/modules/shared/store/hooks';
 import { fetchUsers, createUser, updateUser, deleteUser, restoreUser } from '../store/thunks/usersThunks';
 import type { User } from '../index';
 import type { UserEditFormData, UserFormData } from '../types';
 
 export function useUserFunctions() {
   const dispatch = useAppDispatch();
+  const filters = useAppSelector((state) => state.users.filters);
   const [modalMode, setModalMode] = useState<'create' | 'edit'>('create');
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -100,8 +101,8 @@ export function useUserFunctions() {
           popup: 'dark:bg-gray-800 dark:text-white',
         },
       });
-      setIsModalOpen(false);
-      dispatch(fetchUsers({}));
+  setIsModalOpen(false);
+  dispatch(fetchUsers({ filters }));
     } catch (error: any) {
       Swal.fire({
         title: 'Error',
@@ -135,8 +136,8 @@ export function useUserFunctions() {
           popup: 'dark:bg-gray-800 dark:text-white',
         },
       });
-      setIsModalOpen(false);
-      dispatch(fetchUsers({}));
+  setIsModalOpen(false);
+  dispatch(fetchUsers({ filters }));
     } catch (error: any) {
       Swal.fire({
         title: 'Error',
@@ -168,8 +169,8 @@ export function useUserFunctions() {
           popup: 'dark:bg-gray-800 dark:text-white',
         },
       });
-      setIsModalOpen(false);
-      dispatch(fetchUsers({}));
+  setIsModalOpen(false);
+  dispatch(fetchUsers({ filters }));
     } catch (error: any) {
       Swal.fire({
         title: 'Error',
@@ -201,8 +202,8 @@ export function useUserFunctions() {
           popup: 'dark:bg-gray-800 dark:text-white',
         },
       });
-      setIsModalOpen(false);
-      dispatch(fetchUsers({}));
+  setIsModalOpen(false);
+  dispatch(fetchUsers({ filters }));
     } catch (error: any) {
       Swal.fire({
         title: 'Error',

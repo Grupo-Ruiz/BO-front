@@ -7,6 +7,7 @@ import { useAppSelector, useAppDispatch } from '@/modules/shared/store/hooks';
 import { Button } from '@/modules/shared/components';
 import { HiOutlinePlus } from 'react-icons/hi2';
 import { fetchUsers } from '../store/thunks/usersThunks';
+import { setFilters } from '../store/slices/usersSlice';
 import { formatDate, getStatusBadge } from '@/utils';
 import { useUserFunctions } from '../hooks/useUserFunctions';
 
@@ -78,6 +79,7 @@ export default function UsersPage() {
       order_dir: orderDir,
       include_deleted: includeDeleted,
     };
+    dispatch(setFilters(filters));
     dispatch(fetchUsers({ filters }));
   }, [dispatch, debouncedSearch, selectedStatus, delegacionId, orderBy, orderDir, page, perPage, includeDeleted]);
 
