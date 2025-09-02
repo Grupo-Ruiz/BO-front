@@ -1,16 +1,12 @@
 import { Route } from 'react-router-dom';
-import CardManagementPage from '../pages/CardManagementPage';
+import WalletPage from '../pages/WalletPage';
 
 export const WalletRoutes = () => {
   return (
     <>
-      <Route path="cards" element={<CardManagementPage />} />
-      {/* Aquí puedes agregar más rutas específicas de wallet/tarjetas */}
-      {/* <Route path="wallet" element={<WalletOverviewPage />} /> */}
-      {/* <Route path="cards/create" element={<CreateCardPage />} /> */}
-      {/* <Route path="cards/:id" element={<CardDetailPage />} /> */}
+      <Route path="operations" element={<WalletPage />} />
     </>
   );
 };
 
-export { CardManagementPage };
+export { WalletPage };
