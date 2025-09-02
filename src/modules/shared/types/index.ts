@@ -1,3 +1,12 @@
+// DataLoader reusable component props
+export interface DataLoaderProps {
+  isLoading: boolean;
+  error?: string | null;
+  empty?: boolean;
+  emptyMessage?: string;
+  loadingMessage?: string;
+  children: React.ReactNode;
+}
 // Delegation types for API
 export interface Delegation {
   id: number;

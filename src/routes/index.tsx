@@ -3,7 +3,6 @@ import { Layout } from '../modules/shared/components';
 import { ProtectedRoute, LoginPage } from '../modules/auth';
 import { DashboardRoutes } from '../modules/dashboard/routes';
 import { UserRoutes } from '../modules/users/routes';
-import { ClientRoutes } from '../modules/clients/routes';
 import { WalletRoutes } from '../modules/wallet/routes';
 import { KPIRoutes } from '../modules/kpis/routes';
 import { FAQRoutes } from '../modules/faqs/routes';
@@ -23,7 +22,6 @@ export const AppRoutes = () => {
         {/* Dashboard */}
         {DashboardRoutes()}
         {UserRoutes()}
-        {ClientRoutes()}
         {WalletRoutes()}
         {KPIRoutes()}
         {FAQRoutes()}
