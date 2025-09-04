@@ -177,7 +177,7 @@ const mockWalletQR: WalletQR = {
 /**
  * Simula una petición GET para obtener un QR de wallet
  */
-export const getWalletQR = async (params?: Record<string, any>): Promise<WalletQR> => {
+export const getWalletQR = async (): Promise<WalletQR> => {
   await new Promise((resolve) => setTimeout(resolve, 500));
   return mockWalletQR;
 };
@@ -319,8 +319,13 @@ export const createWalletTransaction = async (transactionData: CreateWalletTrans
   const balanceBefore = clientBalance.balance;
   const balanceAfter = balanceBefore + transactionData.amount;
   
+  // Buscar el nombre del cliente
+  const clientCard = mockCards.find(card => card.userId === transactionData.clientId);
+  const clientName = clientCard ? clientCard.userName : 'Cliente';
+
   const newTransaction: WalletTransaction = {
     ...transactionData,
+    clientName,
     id: (mockWalletTransactions.length + 1).toString(),
     status: 'completed', // En este mock completamos inmediatamente
     reference,
