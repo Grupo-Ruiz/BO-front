@@ -2,12 +2,18 @@ import { configureStore } from '@reduxjs/toolkit';
 import uiReducer from './slices/uiSlice';
 import delegationsReducer from './slices/delegationsSlice';
 import { usersReducer } from '@/modules/users/store';
+import { cardsReducer, walletReducer, qrReducer } from '@/modules/wallet/store';
+import clientsReducer from '@/modules/clients/store/clientsSlice';
 
 export const store = configureStore({
   reducer: {
     ui: uiReducer,
     users: usersReducer,
     delegations: delegationsReducer,
+    cards: cardsReducer,
+    wallet: walletReducer,
+    qr: qrReducer,
+    clients: clientsReducer,
   },
 });
 
