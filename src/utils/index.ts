@@ -28,11 +28,3 @@ export function formatDate(dateString: string) {
     day: 'numeric'
   });
 }
-
-export function handlePageChangeFactory(pagination: any, setPage: (n: number) => void) {
-  return (newPage: number) => {
-    if (pagination && newPage >= 1 && newPage <= (pagination.pages || 1)) {
-      setPage(newPage);
-    }
-  };
-}

@@ -1,7 +1,5 @@
 import type { ReactNode } from 'react';
 
-import { ClientProvider } from '../modules/clients';
-
 interface ModuleProvidersProps {
   children: ReactNode;
 }
@@ -11,9 +9,5 @@ interface ModuleProvidersProps {
  * Cada módulo que use providers debe incluirse aquí
  */
 export function ModuleProviders({ children }: ModuleProvidersProps) {
-  return (
-    <ClientProvider>
-      {children}
-    </ClientProvider>
-  );
+  return <>{children}</>;
 }
