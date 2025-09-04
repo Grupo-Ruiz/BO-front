@@ -17,11 +17,10 @@ const ClientsListPage: React.FC = () => {
     loadClients,
     onAddClient,
     onUpdateClient,
-    onDeleteClient,
-    onSetFilters,
-    onSetSelectedClient,
-    onSetPagination,
-    onResetState,
+  onDeleteClient,
+  onSetFilters,
+  onSetSelectedClient,
+  onSetPagination,
   } = useClientsList();
 
   const [modalOpen, setModalOpen] = useState(false);

@@ -2,17 +2,13 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import type { WalletQR } from '../../types/index';
 import { qrApi } from '../api/qrApi';
 
-export const getWalletQR = createAsyncThunk<WalletQR, Record<string, any> | undefined>(
+export const getWalletQR = createAsyncThunk<WalletQR>(
   'qr/getWalletQR',
-  async (params, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      return await qrApi.getWalletQR(params);
+      return await qrApi.getWalletQR();
     } catch (error: any) {
       return rejectWithValue(error.message || 'Error obteniendo QR');
     }
   }
 );
-
-export const getWalletQRThunk = (params?: Record<string, any>) => (dispatch: any) => {
-  return dispatch(getWalletQR(params));
-};

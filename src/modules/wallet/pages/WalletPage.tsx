@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { TabType } from '../types/index';
+import type { TabType, TabConfig } from '../types/index';
 import WalletDashboard from './WalletDashboard';
 import WalletPayments from './WalletPayments';
 import WalletCard from './WalletCard';
@@ -12,7 +12,7 @@ import WalletClients from './WalletClients';
 export default function WalletPage() {
   const [activeTab, setActiveTab] = useState<TabType>('dashboard');
 
-  const tabs = [
+  const tabs: TabConfig[] = [
     { id: 'dashboard', name: 'Estadísticas', icon: HiOutlineDocumentText },
     { id: 'clients', name: 'Clientes', icon: HiOutlineUserGroup },
     { id: 'cards', name: 'Tarjetas', icon: HiOutlineCreditCard },

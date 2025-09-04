@@ -5,6 +5,7 @@ import { fetchWalletBalance, fetchWalletTransactions } from '../thunks/walletThu
 const initialState: WalletState = {
   transactions: [],
   balances: [],
+  cards: [],
   isLoading: false,
   error: null,
 };

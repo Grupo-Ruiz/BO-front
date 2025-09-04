@@ -41,7 +41,7 @@ export default function WalletQRGenerator() {
   const handleGenerateQR = async () => {
     setSelectedOptions([]);
     setSendStatus('idle');
-    await dispatch(getWalletQR({ amount }));
+    await dispatch(getWalletQR());
   };
 
   // Alterna la selección de una opción
