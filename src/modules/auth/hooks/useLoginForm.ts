@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { useMsal } from '@azure/msal-react';
 import type { LoginCredentials, UseLoginFormProps } from '../types/index';
 
 export function useLoginForm({ onSubmit, initialValues }: UseLoginFormProps) {
   const [credentials, setCredentials] = useState<LoginCredentials>(
     initialValues || { email: '', password: '', delegacion_id: 0 }
   );
+  const { instance } = useMsal();
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -42,8 +44,18 @@ export function useLoginForm({ onSubmit, initialValues }: UseLoginFormProps) {
   const handleLoginWithMicrosoft = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    console.log('Iniciando sesión con Microsoft...');
-    setIsSubmitting(false);
+    setIsSubmitting(true);
+    try {
+      await instance.loginPopup({
+        scopes: ["user.read"],
+      });
+      // Aquí puedes manejar el post-login, como redirigir o actualizar el estado global
+    } catch (error: any) {
+      console.error('MSAL error:', error);
+      setError(error?.message || 'Error al iniciar sesión con Microsoft.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return {

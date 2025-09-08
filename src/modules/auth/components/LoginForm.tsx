@@ -1,7 +1,7 @@
 import type { LoginFormProps } from '../types/index';
 import { useLoginForm } from '../hooks/useLoginForm';
 import { HiOutlineEye, HiOutlineEyeSlash, HiOutlineUser, HiOutlineLockClosed, HiOutlineBuildingOffice } from 'react-icons/hi2';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/modules/shared/store/hooks';
 import type { RootState } from '@/modules/shared/store';
 import { getDelegations } from '@/modules/delegations/store';
