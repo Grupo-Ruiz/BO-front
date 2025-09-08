@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import type { TabType, TabConfig } from '../types/index';
 import WalletDashboard from './WalletDashboard';
-import WalletPayments from './WalletPayments';
-import WalletCard from './WalletCard';
-import WalletQRGenerator from './WalletQRGenerator';
 import WalletTabs from '../components/WalletTabs';
 
 import { HiOutlineQrCode, HiOutlineDocumentText, HiOutlineUserGroup, HiOutlineCreditCard } from 'react-icons/hi2';
-import WalletClients from './WalletClients';
+import CardSearch from '@/modules/cards/components/CardSearch';
+import QRGenerator from '@/modules/qr/components/QRGenerator';
+import ClientsListPage from '@/modules/clients/pages/ClientsListPage';
 
 export default function WalletPage() {
   const [activeTab, setActiveTab] = useState<TabType>('dashboard');
@@ -35,16 +34,13 @@ export default function WalletPage() {
       <WalletDashboard />
     )}
     {activeTab === 'clients' && (
-      <WalletClients />
-    )}
-    {activeTab === 'payments' && (
-      <WalletPayments />
+      <ClientsListPage />
     )}
     {activeTab === 'cards' && (
-      <WalletCard />
+      <CardSearch />
     )}
     {activeTab === 'qr-generator' && (
-      <WalletQRGenerator />
+      <QRGenerator />
     )}
     </div>
   );

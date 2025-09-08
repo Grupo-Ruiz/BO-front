@@ -1,17 +1,6 @@
+import type { CardInfo } from "@/modules/cards/types";
+
 // Tipos usados en el módulo wallet
-
-export interface CardInfo {
-  id: string;
-  userId: string;
-  userName: string;
-  cardNumber: string;
-  balance: number;
-  type: 'mensual' | 'sencillo' | 'anual';
-  status: 'active' | 'inactive' | 'blocked';
-  expiryDate: string;
-  lastUsed: string;
-}
-
 export interface WalletQR {
   ticketNumber: string;
   equipmentType: number;

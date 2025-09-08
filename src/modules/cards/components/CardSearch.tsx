@@ -1,0 +1,62 @@
+import { useState, type FormEvent } from 'react';
+import { HiOutlineMagnifyingGlass } from 'react-icons/hi2';
+import { cardsApi } from '../store/cardsApi';
+import DataLoader from '@/modules/shared/components/DataLoader';
+import { CardComponent } from './CardComponent';
+import type { CardInfo } from '../types';
+
+export default function CardSearch() {
+    const [input, setInput] = useState('');
+    const [card, setCard] = useState<CardInfo | null>(null);
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+
+    const handleSearch = async (e: FormEvent) => {
+        e.preventDefault();
+        setError('');
+        setLoading(true);
+        setCard(null);
+        try {
+            const found = await cardsApi.getById(input.trim());
+            if (!found) {
+                setError('No se encontró ninguna tarjeta con ese número o ID.');
+            } else {
+                setCard(found);
+            }
+        } catch (err) {
+            setError('Error buscando la tarjeta.');
+        }
+        setLoading(false);
+    };
+
+    return (
+        <div className="max-w-xl mx-auto space-y-8">
+            <div className="bg-white dark:bg-gray-800 shadow rounded-lg border border-gray-200 dark:border-gray-700 p-8">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Gestión de Tarjeta</h2>
+                <p className="text-gray-600 dark:text-gray-400 mb-6">
+                    Busca una tarjeta por número o ID y realiza operaciones sobre ella.
+                </p>
+                <form onSubmit={handleSearch} className="flex gap-2 items-center mb-6">
+                    <input
+                        type="text"
+                        className="flex-1 rounded border border-gray-300 dark:border-gray-600 px-3 py-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 placeholder-gray-400 dark:placeholder-gray-500"
+                        placeholder="ID o número de tarjeta"
+                        value={input}
+                        onChange={e => setInput(e.target.value)}
+                    />
+                    <button
+                        type="submit"
+                        className="inline-flex items-center gap-2 px-4 py-2 bg-primary-600 text-white rounded hover:bg-primary-700 focus:outline-none transition-colors dark:bg-primary-500 dark:hover:bg-primary-600"
+                        disabled={loading}
+                    >
+                        <HiOutlineMagnifyingGlass className="w-5 h-5" />
+                        Buscar
+                    </button>
+                </form>
+                <DataLoader isLoading={loading} error={error} empty={!card} emptyMessage="No hay tarjeta seleccionada">
+                    {card && <CardComponent card={card} />}
+                </DataLoader>
+            </div>
+        </div>
+    );
+}

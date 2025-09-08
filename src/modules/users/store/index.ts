@@ -1,3 +1,3 @@
-export { default as usersReducer } from './slices/usersSlice';
-export * from './thunks/usersThunks';
-export * from './api/usersApi';
+export { default as usersReducer } from './usersSlice';
+export * from './usersThunks';
+export * from './usersApi';

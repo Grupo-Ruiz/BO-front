@@ -4,7 +4,7 @@ import WalletPage from '../pages/WalletPage';
 export const WalletRoutes = () => {
   return (
     <>
-      <Route path="operations" element={<WalletPage />} />
+      <Route path="/wallet" element={<WalletPage />} />
     </>
   );
 };

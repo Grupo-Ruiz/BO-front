@@ -3,8 +3,8 @@ import { useLoginForm } from '../hooks/useLoginForm';
 import { HiOutlineEye, HiOutlineEyeSlash, HiOutlineUser, HiOutlineLockClosed, HiOutlineBuildingOffice } from 'react-icons/hi2';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/modules/shared/store/hooks';
-import { getDelegations } from '@/modules/shared/store/thunks/delegationsThunks';
 import type { RootState } from '@/modules/shared/store';
+import { getDelegations } from '@/modules/delegations/store';
 
 export function LoginForm({ onSubmit, isLoading = false }: LoginFormProps) {
   // Hook para manejar el formulario de login

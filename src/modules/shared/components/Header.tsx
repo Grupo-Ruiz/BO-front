@@ -1,7 +1,7 @@
 import { HiOutlineBell, HiOutlineUserCircle, HiOutlineArrowRightOnRectangle, HiOutlineBars3 } from 'react-icons/hi2';
 import ThemeToggle from './ThemeToggle';
-import { useHeader } from '../hooks/useHeader';
 import type { HeaderProps } from '../types';
+import { useHeader } from '../hooks';
 
 export function Header({ sidebarOpen, setSidebarOpen }: HeaderProps) {
   const {
