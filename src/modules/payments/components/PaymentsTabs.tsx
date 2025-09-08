@@ -1,8 +1,8 @@
+import type { TabConfig } from "@/modules/shared/types";
+import type { PaymentsTabsProps } from "../types";
 
-import type { WalletTabsProps, TabConfig } from '../types/index';
 
-
-export default function WalletTabs({ tabs, activeTab, setActiveTab }: WalletTabsProps) {
+export default function PaymentsTabs({ tabs, activeTab, setActiveTab }: PaymentsTabsProps) {
   return (
     <div className="mb-6">
       <nav className="flex space-x-8 border-b border-gray-200 dark:border-gray-700" aria-label="Tabs">

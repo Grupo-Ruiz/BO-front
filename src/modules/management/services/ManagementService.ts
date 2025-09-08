@@ -1,8 +1,7 @@
 import { mockCards } from '@/modules/cards/services/cardService';
 import type { CreateTransactionData, ManagementBalance, ManagementStats, Transaction, TransactionFilters, TransferData } from '../types';
-import type { WalletBalance } from '@/modules/wallet';
 
-// Mock data para transacciones de wallet
+// Mock data para transacciones
 const mockTransactions: Transaction[] = [
   {
     id: '1',
@@ -97,7 +96,7 @@ const mockTransactions: Transaction[] = [
   }
 ];
 
-// Mock data para balances de wallet
+// Mock data para balances
 const mockBalances: ManagementBalance[] = [
   {
     clientId: '1',
@@ -126,7 +125,7 @@ const mockBalances: ManagementBalance[] = [
 ];
 
 /**
- * Obtiene todas las transacciones de wallet con filtros opcionales
+ * Obtiene todas las transacciones con filtros opcionales
  */
 export const getAllTransactions = async (filters?: TransactionFilters): Promise<Transaction[]> => {
   // Simular delay de API
@@ -189,7 +188,7 @@ export const getAllTransactions = async (filters?: TransactionFilters): Promise<
 };
 
 /**
- * Obtiene una transacción de wallet por ID
+ * Obtiene una transacción por ID
  */
 export const getTransactionById = async (id: string): Promise<Transaction> => {
   await new Promise(resolve => setTimeout(resolve, 300));
@@ -207,7 +206,7 @@ export const getTransactionById = async (id: string): Promise<Transaction> => {
 };
 
 /**
- * Crea una nueva transacción de wallet
+ * Crea una nueva transacción
  */
 export const createTransaction = async (transactionData: CreateTransactionData): Promise<Transaction> => {
   await new Promise(resolve => setTimeout(resolve, 800));
@@ -270,9 +269,9 @@ export const createTransaction = async (transactionData: CreateTransactionData):
 };
 
 /**
- * Obtiene el balance de wallet de un cliente
+ * Obtiene el balance de un cliente
  */
-export const getBalance = async (clientId: string, currency: 'EUR' | 'USD' = 'EUR'): Promise<WalletBalance> => {
+export const getBalance = async (clientId: string, currency: 'EUR' | 'USD' = 'EUR'): Promise<ManagementBalance> => {
   await new Promise(resolve => setTimeout(resolve, 300));
   
   if (!clientId || clientId.trim() === '') {
@@ -301,7 +300,7 @@ export const getBalance = async (clientId: string, currency: 'EUR' | 'USD' = 'EU
 };
 
 /**
- * Obtiene todos los balances de wallet
+ * Obtiene todos los balances
  */
 export const getAllBalances = async (): Promise<ManagementBalance[]> => {
   await new Promise(resolve => setTimeout(resolve, 400));
@@ -402,14 +401,14 @@ export const processWithdrawal = async (clientId: string, amount: number, curren
 };
 
 /**
- * Busca transacciones de wallet (alias para getAllWalletTransactions con filtros)
+ * Busca transacciones (alias para getAllTransactions con filtros)
  */
 export const searchTransactions = async (filters: TransactionFilters): Promise<Transaction[]> => {
   return getAllTransactions(filters);
 };
 
 /**
- * Obtiene transacciones de wallet paginadas
+ * Obtiene transacciones paginadas
  */
 export const getTransactionsPaginated = async (filters: TransactionFilters = {}): Promise<{
   transactions: Transaction[];
@@ -445,7 +444,7 @@ export const getTransactionsPaginated = async (filters: TransactionFilters = {})
 };
 
 /**
- * Obtiene estadísticas de wallet
+ * Obtiene estadísticas
  */
 export const getStats = async (filters?: Omit<TransactionFilters, 'page' | 'per_page'>): Promise<ManagementStats> => {
   await new Promise(resolve => setTimeout(resolve, 400));

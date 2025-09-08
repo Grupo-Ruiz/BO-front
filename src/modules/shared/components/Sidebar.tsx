@@ -12,7 +12,7 @@ const navigation = [
   { name: 'Inicio',       href: '/',            icon: HiOutlineHome },
   { name: 'Usuarios',     href: '/users',       icon: HiOutlineUsers },
   { name: 'Gestiones',    href: '/management',  icon: HiOutlineArrowsRightLeft },
-  { name: 'Pasarelas',    href: '/wallet',     icon: HiOutlineBanknotes },
+  { name: 'Pasarelas',    href: '/payments',     icon: HiOutlineBanknotes },
   { name: 'KPIs',         href: '/kpis',        icon: HiOutlineChartBar },
   { name: 'FAQs',         href: '/faqs',        icon: HiOutlineQuestionMarkCircle },
 ];

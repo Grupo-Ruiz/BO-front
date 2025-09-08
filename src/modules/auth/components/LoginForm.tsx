@@ -1,13 +1,13 @@
 import type { LoginFormProps } from '../types/index';
 import { useLoginForm } from '../hooks/useLoginForm';
 import { HiOutlineEye, HiOutlineEyeSlash, HiOutlineUser, HiOutlineLockClosed, HiOutlineBuildingOffice } from 'react-icons/hi2';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/modules/shared/store/hooks';
 import type { RootState } from '@/modules/shared/store';
 import { getDelegations } from '@/modules/delegations/store';
+import { TiVendorMicrosoft } from 'react-icons/ti';
 
 export function LoginForm({ onSubmit, isLoading = false }: LoginFormProps) {
-  // Hook para manejar el formulario de login
   const {
     credentials,
     setCredentials,
@@ -15,14 +15,13 @@ export function LoginForm({ onSubmit, isLoading = false }: LoginFormProps) {
     setShowPassword,
     error,
     setError,
-    // isSubmitting,
     handleChange,
     handleSubmit,
+    handleLoginWithMicrosoft,
   } = useLoginForm({ onSubmit });
-
+  
   const dispatch = useAppDispatch();
   const { delegations } = useAppSelector((state: RootState) => state.delegations);
-  // Obtener las delegaciones al montar el componente
   useEffect(() => {
     dispatch(getDelegations());
   }, []);
@@ -143,12 +142,13 @@ export function LoginForm({ onSubmit, isLoading = false }: LoginFormProps) {
           </div>
         )}
 
-        <div>
-          {/* Hacer el login */}
+        {/* Botones de acción */}
+        <div className="space-y-4">
+          {/* Logeo con credenciales */}
           <button
             type="submit"
-            disabled={isLoading /* || isSubmitting */}
-            className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed dark:focus:ring-offset-gray-900 transition-colors shadow-sm"
+            disabled={isLoading}
+            className="group relative w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed dark:focus:ring-offset-gray-900 transition-colors shadow-sm"
           >
             {isLoading ? (
               <div className="flex items-center">
@@ -156,8 +156,21 @@ export function LoginForm({ onSubmit, isLoading = false }: LoginFormProps) {
                 Iniciando sesión...
               </div>
             ) : (
-              'Iniciar sesión'
+              <>
+                <HiOutlineLockClosed className="h-5 w-5" />
+                Iniciar sesión
+              </>
             )}
+          </button>
+          {/* Logeo con Microsoft */}
+          <button
+            type="button"
+            disabled={isLoading}
+            className="group relative w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed dark:focus:ring-offset-gray-900 transition-colors shadow-sm"
+            onClick={handleLoginWithMicrosoft}
+          >
+            <TiVendorMicrosoft className="h-5 w-5" />
+            Iniciar con Microsoft
           </button>
         </div>
 
@@ -184,6 +197,7 @@ export function LoginForm({ onSubmit, isLoading = false }: LoginFormProps) {
             👤 Usar credenciales de Operador
           </button>
         </div>
+
       </form>
     </div>
   );

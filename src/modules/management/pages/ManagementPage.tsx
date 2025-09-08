@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import type { TabType, TabConfig } from '../types/index';
 
 import { HiOutlineQrCode, HiOutlineDocumentText, HiOutlineUserGroup, HiOutlineCreditCard } from 'react-icons/hi2';
 import CardSearch from '@/modules/cards/components/CardSearch';
@@ -7,6 +6,7 @@ import QRGenerator from '@/modules/qr/components/QRGenerator';
 import ClientsListPage from '@/modules/clients/pages/ClientsListPage';
 import ManagementTabs from '../components/ManagementTabs';
 import ManagementDashboard from './ManagementDashboard';
+import type { TabConfig, TabType } from '@/modules/shared/types';
 
 export default function ManagementPage() {
   const [activeTab, setActiveTab] = useState<TabType>('dashboard');

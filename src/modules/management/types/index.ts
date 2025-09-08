@@ -1,6 +1,6 @@
 import type { CardInfo } from "@/modules/cards/types";
+import type { QrData } from "@/modules/qr/types";
 import type { TabConfig, TabType } from "@/modules/shared/types";
-import type { WalletQR } from "@/modules/wallet";
 
 export interface Transaction {
   id: string;
@@ -84,7 +84,7 @@ export interface ManagementState {
   transactions: Transaction[];
   balances: ManagementBalance[];
   cards: CardInfo[];
-  qr?: WalletQR;
+  qr?: QrData;
   isLoading: boolean;
   error?: string | null;
 }

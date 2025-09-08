@@ -7,7 +7,7 @@ import { getOperationIcon } from '@/modules/shared/utils/operation';
 import DataLoader from '@/modules/shared/components/DataLoader';
 import { HiOutlineCreditCard, HiOutlineBanknotes, HiOutlineClock, HiOutlineQrCode } from 'react-icons/hi2';
 import { fetchCards } from '@/modules/cards/store';
-import { fetchWalletTransactions } from '@/modules/wallet/store';
+import { fetchTransactions } from '../store';
 
 
 export default function ManagementDashboard() {
@@ -17,7 +17,7 @@ export default function ManagementDashboard() {
 
   useEffect(() => {
     dispatch(fetchCards());
-    dispatch(fetchWalletTransactions({}));
+    dispatch(fetchTransactions({}));
   }, [dispatch]);
 
   return (

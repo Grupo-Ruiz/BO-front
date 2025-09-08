@@ -39,6 +39,13 @@ export function useLoginForm({ onSubmit, initialValues }: UseLoginFormProps) {
     }
   };
 
+  const handleLoginWithMicrosoft = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    console.log('Iniciando sesión con Microsoft...');
+    setIsSubmitting(false);
+  };
+
   return {
     credentials,
     setCredentials,
@@ -49,5 +56,6 @@ export function useLoginForm({ onSubmit, initialValues }: UseLoginFormProps) {
     isSubmitting,
     handleChange,
     handleSubmit,
+    handleLoginWithMicrosoft
   };
 }
