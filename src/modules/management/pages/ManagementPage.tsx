@@ -4,7 +4,7 @@ import { HiOutlineQrCode, HiOutlineDocumentText, HiOutlineUserGroup, HiOutlineCr
 import CardSearch from '@/modules/cards/components/CardSearch';
 import QRGenerator from '@/modules/qr/components/QRGenerator';
 import ClientsListPage from '@/modules/clients/pages/ClientsListPage';
-import ManagementTabs from '../components/ManagementTabs';
+import Tabs from '@/modules/shared/components/Tabs';
 import ManagementDashboard from './ManagementDashboard';
 import type { TabConfig, TabType } from '@/modules/shared/types';
 
@@ -28,20 +28,21 @@ export default function ManagementPage() {
           Panel unificado para gestión de tarjetas, abonos, operaciones, pagos y códigos QR
         </p>
       </div>
-        <ManagementTabs tabs={tabs} activeTab={activeTab} setActiveTab={(tab) => setActiveTab(tab as TabType)} />
+      
+      <Tabs tabs={tabs} activeTab={activeTab} setActiveTab={(tab) => setActiveTab(tab as TabType)} />
 
-    {activeTab === 'dashboard' && (
-      <ManagementDashboard />
-    )}
-    {activeTab === 'clients' && (
-      <ClientsListPage />
-    )}
-    {activeTab === 'cards' && (
-      <CardSearch />
-    )}
-    {activeTab === 'qr-generator' && (
-      <QRGenerator />
-    )}
+      {activeTab === 'dashboard' && (
+        <ManagementDashboard />
+      )}
+      {activeTab === 'clients' && (
+        <ClientsListPage />
+      )}
+      {activeTab === 'cards' && (
+        <CardSearch />
+      )}
+      {activeTab === 'qr-generator' && (
+        <QRGenerator />
+      )}
     </div>
   );
 }

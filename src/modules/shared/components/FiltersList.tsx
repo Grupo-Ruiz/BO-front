@@ -3,12 +3,17 @@ import type { ReactNode } from 'react';
 export interface FilterField {
   name: string;
   label: string;
-  type: 'input' | 'select';
+  type: 'input' | 'select' | 'custom';
   value: string;
   onChange: (value: string) => void;
   options?: { value: string; label: string }[];
   placeholder?: string;
   defaultOption?: { value: string; label: string } | null;
+  icon?: ReactNode;
+  render?: () => ReactNode;
+  inputClassName?: string;
+  wrapperClassName?: string;
+  labelClassName?: string;
 }
 
 export interface FiltersListButton {
@@ -32,34 +37,45 @@ export function FiltersList({ fields, onClear, buttons = [], className = '', chi
     <div className={`bg-white dark:bg-gray-800 p-6 rounded-lg shadow mb-4 ${className}`}>
       <form className="space-y-4 md:space-y-0 md:flex md:items-end md:gap-4">
         {fields.map(field => (
-          <div key={field.name} className="flex-1 min-w-[120px]">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{field.label}</label>
-            {field.type === 'input' ? (
-              <input
-                type="text"
-                name={field.name}
-                value={field.value}
-                onChange={e => field.onChange(e.target.value)}
-                placeholder={field.placeholder}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
-              />
-            ) : (
-              <select
-                name={field.name}
-                value={field.value}
-                onChange={e => field.onChange(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-              >
-                {field.defaultOption === undefined
-                  ? <option value="">Todos</option>
-                  : field.defaultOption !== null
-                    ? <option value={field.defaultOption.value}>{field.defaultOption.label}</option>
-                    : null}
-                {field.options?.map(opt => (
-                  <option key={opt.value} value={opt.value}>{opt.label}</option>
-                ))}
-              </select>
+          <div key={field.name} className={`flex-1 min-w-[120px] ${field.wrapperClassName || ''}`}>
+            {field.type !== 'custom' && (
+              <label className={field.labelClassName || 'block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2'}>{field.label}</label>
             )}
+            {field.type === 'input' ? (
+              <div className={field.wrapperClassName || 'relative'}>
+                {field.icon && (
+                  <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2">{field.icon}</span>
+                )}
+                <input
+                  type="text"
+                  name={field.name}
+                  value={field.value}
+                  onChange={e => field.onChange(e.target.value)}
+                  placeholder={field.placeholder}
+                  className={field.inputClassName || `w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 ${field.icon ? 'pl-10' : ''}`}
+                />
+              </div>
+            ) : field.type === 'select' ? (
+              <div className="relative">
+                <select
+                  name={field.name}
+                  value={field.value}
+                  onChange={e => field.onChange(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                >
+                  {field.defaultOption === undefined
+                    ? <option value="">Todos</option>
+                    : field.defaultOption !== null
+                      ? <option value={field.defaultOption.value}>{field.defaultOption.label}</option>
+                      : null}
+                  {field.options?.map(opt => (
+                    <option key={opt.value} value={opt.value}>{opt.label}</option>
+                  ))}
+                </select>
+              </div>
+            ) : field.type === 'custom' && field.render ? (
+              field.render()
+            ) : null}
           </div>
         ))}
         {(onClear || buttons.length > 0) && (
@@ -77,7 +93,7 @@ export function FiltersList({ fields, onClear, buttons = [], className = '', chi
                 className={btn.className || 'flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold shadow-sm transition'}
               >
                 {btn.icon && <span className="mr-1">{btn.icon}</span>}
-                {btn.label}
+                <span>{btn.label}</span>
               </button>
             ))}
           </div>

@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react';
-import { HiOutlineMagnifyingGlass } from 'react-icons/hi2';
+import { HiOutlineMagnifyingGlass, HiOutlineCurrencyEuro } from 'react-icons/hi2';
 import { cardsApi } from '../store/cardsApi';
 import DataLoader from '@/modules/shared/components/DataLoader';
 import { CardComponent } from './CardComponent';
@@ -55,6 +55,34 @@ export default function CardSearch() {
                 </form>
                 <DataLoader isLoading={loading} error={error} empty={!card} emptyMessage="No hay tarjeta seleccionada">
                     {card && <CardComponent card={card} />}
+
+                    {/*Botones de recarga */}
+                    <div className="flex flex-col sm:flex-row gap-3 mt-8">
+                        <button
+                            type="button"
+                            className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-green-700 text-white rounded-lg font-semibold shadow hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 transition disabled:opacity-60 disabled:cursor-not-allowed"
+                            disabled={loading || !card}
+                        >
+                            <HiOutlineCurrencyEuro className="w-5 h-5 opacity-80" />
+                            Recargar 5€
+                        </button>
+                        <button
+                            type="button"
+                            className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-green-700 text-white rounded-lg font-semibold shadow hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 transition disabled:opacity-60 disabled:cursor-not-allowed"
+                            disabled={loading || !card}
+                        >
+                            <HiOutlineCurrencyEuro className="w-5 h-5 opacity-80" />
+                            Recargar 10€
+                        </button>
+                        <button
+                            type="button"
+                            className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-green-700 text-white rounded-lg font-semibold shadow hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 transition disabled:opacity-60 disabled:cursor-not-allowed"
+                            disabled={loading || !card}
+                        >
+                            <HiOutlineCurrencyEuro className="w-5 h-5 opacity-80" />
+                            Recargar 20€
+                        </button>
+                    </div>
                 </DataLoader>
             </div>
         </div>

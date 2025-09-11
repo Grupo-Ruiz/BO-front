@@ -5,7 +5,7 @@ import RedsysPage from './RedsysPage';
 import { SiRedsys } from 'react-icons/si';
 import { FaCcStripe } from 'react-icons/fa';
 import type { TabConfig, TabType } from '@/modules/shared/types';
-import PaymentsTabs from '../components/PaymentsTabs';
+import Tabs from '@/modules/shared/components/Tabs';
 
 export default function PaymentsPage() {
   const [activeTab, setActiveTab] = useState<TabType>('redsys');
@@ -25,14 +25,15 @@ export default function PaymentsPage() {
           Panel unificado para gestión de tarjetas, abonos, operaciones, pagos y códigos QR
         </p>
       </div>
-        <PaymentsTabs tabs={tabs} activeTab={activeTab} setActiveTab={(tab) => setActiveTab(tab as TabType)} />
+      
+      <Tabs tabs={tabs} activeTab={activeTab} setActiveTab={(tab) => setActiveTab(tab as TabType)} />
 
-    {activeTab === 'redsys' && (
-      <RedsysPage />
-    )}
-    {activeTab === 'stripe' && (
-      <StripePage />
-    )}
+      {activeTab === 'redsys' && (
+        <RedsysPage />
+      )}
+      {activeTab === 'stripe' && (
+        <StripePage />
+      )}
     </div>
   );
 }

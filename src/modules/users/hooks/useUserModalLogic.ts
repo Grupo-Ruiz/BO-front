@@ -5,6 +5,8 @@ import type { AuthUser } from '@/modules/auth/types';
 
 export function useUserModalLogic(props: UserModalProps): UseUserModalLogic {
   const { isOpen, onClose, onSave, onEdit, user, mode } = props;
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const { user: userAuth } = useAuth() as { user?: AuthUser };
   const delegationId = userAuth?.delegacion_id;
   const [formData, setFormData] = useState<UserFormData>({
@@ -17,8 +19,6 @@ export function useUserModalLogic(props: UserModalProps): UseUserModalLogic {
     delegacion_id: delegationId,
     activo: user?.activo ?? true,
   });
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
     if (isOpen && (mode === 'edit' || mode === 'view') && user) {
