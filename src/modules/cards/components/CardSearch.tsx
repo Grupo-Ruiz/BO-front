@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react';
-import { HiOutlineMagnifyingGlass, HiOutlineCurrencyEuro } from 'react-icons/hi2';
+import { HiOutlineMagnifyingGlass, HiOutlineCurrencyEuro, HiOutlineTrash } from 'react-icons/hi2';
+import { Button } from '@/modules/shared/components';
 import { cardsApi } from '../store/cardsApi';
 import DataLoader from '@/modules/shared/components/DataLoader';
 import { CardComponent } from './CardComponent';
@@ -44,44 +45,63 @@ export default function CardSearch() {
                         value={input}
                         onChange={e => setInput(e.target.value)}
                     />
-                    <button
-                        type="submit"
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-primary-600 text-white rounded hover:bg-primary-700 focus:outline-none transition-colors dark:bg-primary-500 dark:hover:bg-primary-600"
+                    <Button
+                        type="button"
+                        variant="secondary"
+                        size="md"
                         disabled={loading}
+                        onClick={() => { setInput(''); setCard(null); setError(''); }}
+                        className="gap-2"
+                    >
+                        <HiOutlineTrash className="w-5 h-5" />
+                        Vaciar
+                    </Button>
+                    <Button
+                        type="submit"
+                        variant="primary"
+                        size="md"
+                        disabled={loading}
+                        className="gap-2"
                     >
                         <HiOutlineMagnifyingGlass className="w-5 h-5" />
                         Buscar
-                    </button>
+                    </Button>
                 </form>
                 <DataLoader isLoading={loading} error={error} empty={!card} emptyMessage="No hay tarjeta seleccionada">
                     {card && <CardComponent card={card} />}
 
                     {/*Botones de recarga */}
-                    <div className="flex flex-col sm:flex-row gap-3 mt-8">
-                        <button
+                    <div className="flex flex-wrap justify-center gap-4 mt-8">
+                        <Button
                             type="button"
-                            className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-green-700 text-white rounded-lg font-semibold shadow hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 transition disabled:opacity-60 disabled:cursor-not-allowed"
+                            variant="success"
+                            size="md"
                             disabled={loading || !card}
+                            className="gap-2 font-semibold shadow-green-200/40 shadow-md bg-green-600 hover:bg-green-700 text-white"
                         >
-                            <HiOutlineCurrencyEuro className="w-5 h-5 opacity-80" />
+                            <HiOutlineCurrencyEuro className="w-5 h-5 opacity-90" />
                             Recargar 5€
-                        </button>
-                        <button
+                        </Button>
+                        <Button
                             type="button"
-                            className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-green-700 text-white rounded-lg font-semibold shadow hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 transition disabled:opacity-60 disabled:cursor-not-allowed"
+                            variant="success"
+                            size="md"
                             disabled={loading || !card}
+                            className="gap-2 font-semibold shadow-green-200/40 shadow-md bg-green-600 hover:bg-green-700 text-white"
                         >
-                            <HiOutlineCurrencyEuro className="w-5 h-5 opacity-80" />
+                            <HiOutlineCurrencyEuro className="w-5 h-5 opacity-90" />
                             Recargar 10€
-                        </button>
-                        <button
+                        </Button>
+                        <Button
                             type="button"
-                            className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-green-700 text-white rounded-lg font-semibold shadow hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 transition disabled:opacity-60 disabled:cursor-not-allowed"
+                            variant="success"
+                            size="md"
                             disabled={loading || !card}
+                            className="gap-2 font-semibold shadow-green-200/40 shadow-md bg-green-600 hover:bg-green-700 text-white"
                         >
-                            <HiOutlineCurrencyEuro className="w-5 h-5 opacity-80" />
+                            <HiOutlineCurrencyEuro className="w-5 h-5 opacity-90" />
                             Recargar 20€
-                        </button>
+                        </Button>
                     </div>
                 </DataLoader>
             </div>

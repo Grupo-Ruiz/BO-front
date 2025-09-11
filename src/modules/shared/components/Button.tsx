@@ -4,7 +4,7 @@ interface ButtonProps {
   children: ReactNode;
   onClick?: () => void;
   type?: 'button' | 'submit' | 'reset';
-  variant?: 'primary' | 'secondary' | 'danger' | 'ghost';
+  variant?: 'primary' | 'secondary' | 'success' | 'danger' | 'ghost';
   size?: 'sm' | 'md' | 'lg';
   disabled?: boolean;
   loading?: boolean;

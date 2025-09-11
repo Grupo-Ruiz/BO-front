@@ -1,6 +1,5 @@
 import type { CardInfo } from "@/modules/cards/types";
 import type { QrData } from "@/modules/qr/types";
-import type { TabConfig, TabType } from "@/modules/shared/types";
 
 export interface Transaction {
   id: string;
@@ -72,12 +71,6 @@ export interface ManagementStats {
   totalDeposits: number;
   totalWithdrawals: number;
   netFlow: number;
-}
-
-export interface ManagementTabsProps {
-  tabs: TabConfig[];
-  activeTab: TabType;
-  setActiveTab: (tab: TabType) => void;
 }
 
 export interface ManagementState {

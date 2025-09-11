@@ -5,8 +5,6 @@ export const DashboardRoutes = () => {
   return (
     <>
       <Route index element={<Dashboard />} />
-      {/* Aquí puedes agregar más rutas específicas del dashboard */}
-      {/* <Route path="dashboard/analytics" element={<DashboardAnalyticsPage />} /> */}
     </>
   );
 };

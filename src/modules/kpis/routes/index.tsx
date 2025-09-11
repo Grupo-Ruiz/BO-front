@@ -5,9 +5,6 @@ export const KPIRoutes = () => {
   return (
     <>
       <Route path="kpis" element={<KPIsPage />} />
-      {/* Aquí puedes agregar más rutas específicas de KPIs */}
-      {/* <Route path="kpis/reports" element={<KPIReportsPage />} /> */}
-      {/* <Route path="kpis/analytics" element={<KPIAnalyticsPage />} /> */}
     </>
   );
 };

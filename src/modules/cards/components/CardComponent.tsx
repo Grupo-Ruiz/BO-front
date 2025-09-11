@@ -17,23 +17,12 @@ const Logo = () => (
 export function CardComponent({ card }: CardComponentProps) {
   return (
     <div
-      className="relative m-auto h-52 w-80 sm:h-60 sm:w-96 rounded-3xl shadow-2xl overflow-hidden group cursor-pointer select-none transition-transform duration-300 ease-[cubic-bezier(.4,1.6,.4,1)] focus:outline-none"
+      className="relative m-auto h-52 w-80 sm:h-60 sm:w-96 rounded-3xl shadow-2xl overflow-hidden cursor-pointer select-none transition-transform duration-300 ease-[cubic-bezier(.4,1.6,.4,1)] focus:outline-none hover:scale-105 hover:shadow-2xl active:scale-110"
       style={{ fontFamily: 'Poppins, Inter, sans-serif' }}
       tabIndex={0}
       role="button"
       aria-label="Tarjeta de usuario"
     >
-      {/* Escalado animado al hacer hover/click */}
-      <style>{`
-        .group:hover, .group:focus {
-          transform: scale(1.08);
-          box-shadow: 0 12px 48px 0 rgba(0,0,0,0.35), 0 2px 8px 0 rgba(0,0,0,0.10);
-        }
-        .group:active {
-          transform: scale(1.12);
-          box-shadow: 0 20px 60px 0 rgba(0,0,0,0.40);
-        }
-      `}</style>
 
       {/* Fondo glassmorphism y decoraciones */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-500/80 via-blue-700/80 to-[#0033cc]/95 backdrop-blur-xl z-0" />
