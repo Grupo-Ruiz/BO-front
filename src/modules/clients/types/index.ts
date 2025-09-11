@@ -1,7 +1,8 @@
-// Tipos base para el módulo de clientes reutilizable
+// Tipo para crear cliente (sin id)
+export type ClientCreateData = Omit<Client, 'id'>;
 
+// Tipos base para el módulo de clientes reutilizable
 export type ClientStatus = 'active' | 'inactive' | 'suspended';
-export type ClientKycStatus = 'verified' | 'pending' | 'rejected';
 export type ClientRiskLevel = 'low' | 'medium' | 'high';
 export type ClientUserType = 'premium' | 'regular';
 
@@ -12,7 +13,6 @@ export interface Client {
   walletBalance: number;
   userType: ClientUserType;
   status: ClientStatus;
-  kycStatus: ClientKycStatus;
   riskLevel: ClientRiskLevel;
 }
 
@@ -33,7 +33,6 @@ export interface ClientFilters {
   name?: string;
   email?: string;
   status?: string;
-  kycStatus?: string;
   riskLevel?: string;
   page?: number;
   per_page?: number;
@@ -46,4 +45,17 @@ export interface ClientsListState {
   filters: ClientFilters;
   selectedClient: Client | null;
   pagination?: ClientsPaginationMeta;
+}
+
+export interface UseClientsListPageProps {
+  perPage: number;
+  searchTerm: string;
+  selectedStatus: string;
+  setSearchTerm: (v: string) => void;
+  setSelectedStatus: (v: string) => void;
+  setPerPage: (v: number) => void;
+  onPerPageChange: (v: number) => void;
+  onNewClient: () => void;
+  onEditClient: (client: any) => void;
+  onDeleteClient: (clientId: string) => void;
 }

@@ -6,8 +6,8 @@ import { UserModal } from '../index';
 import { useAppSelector, useAppDispatch } from '@/modules/shared/store/hooks';
 import { Button } from '@/modules/shared/components';
 import { HiOutlinePlus } from 'react-icons/hi2';
-import { fetchUsers } from '../store/thunks/usersThunks';
-import { setFilters } from '../store/slices/usersSlice';
+import { fetchUsers } from '../store/usersThunks';
+import { setFilters } from '../store/usersSlice';
 import { formatDate, getStatusBadge } from '@/utils';
 import { useUserFunctions } from '../hooks/useUserFunctions';
 

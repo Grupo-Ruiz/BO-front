@@ -5,10 +5,6 @@ import UsersPage from '../pages/UsersPage';
 export const UserRoutes = () => (
   <>
     <Route path="users" element={<UsersPage />} />
-    {/* Rutas futuras: */}
-    {/* <Route path="users/create" element={<CreateUserPage />} /> */}
-    {/* <Route path="users/:id" element={<UserDetailPage />} /> */}
-    {/* <Route path="users/:id/edit" element={<EditUserPage />} /> */}
   </>
 );
 

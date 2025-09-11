@@ -2,17 +2,17 @@ import { Link, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useAuth } from '../../auth/services/AuthContext';
 import { HiOutlineHome, HiOutlineUsers, HiOutlineChartBar, HiOutlineQuestionMarkCircle, HiOutlineXMark, HiOutlineArrowsRightLeft, HiOutlineBanknotes } from 'react-icons/hi2';
-import { getDelegations } from '../store/thunks/delegationsThunks';
 import { useAppDispatch, useAppSelector } from '@/modules/shared/store/hooks';
 import { getDelegationNameById } from '@/utils';
 import type { RootState } from '../store';
+import { getDelegations } from '@/modules/delegations/store';
 
 // Ejemplo de uso en el render:
 const navigation = [
   { name: 'Inicio',       href: '/',            icon: HiOutlineHome },
   { name: 'Usuarios',     href: '/users',       icon: HiOutlineUsers },
-  { name: 'Operaciones',  href: '/operations',  icon: HiOutlineArrowsRightLeft },
-  { name: 'Pasarelas',    href: '/payments',    icon: HiOutlineBanknotes },
+  { name: 'Gestiones',    href: '/management',  icon: HiOutlineArrowsRightLeft },
+  { name: 'Pasarelas',    href: '/payments',     icon: HiOutlineBanknotes },
   { name: 'KPIs',         href: '/kpis',        icon: HiOutlineChartBar },
   { name: 'FAQs',         href: '/faqs',        icon: HiOutlineQuestionMarkCircle },
 ];

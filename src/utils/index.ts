@@ -1,4 +1,4 @@
-import type { Delegation } from '../modules/shared/types';
+import type { Delegation } from "@/modules/delegations/types";
 
 /**
  * Busca el nombre de una delegación por su id.

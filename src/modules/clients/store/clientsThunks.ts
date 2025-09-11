@@ -14,7 +14,7 @@ export const fetchClients = createAsyncThunk<ClientsPaginatedResponse, { filters
   }
 );
 
-export const addClient = createAsyncThunk<Client, Client>(
+export const addClient = createAsyncThunk<Client, import('../types').ClientCreateData>(
   'clients/addClient',
   async (client, { rejectWithValue }) => {
     try {

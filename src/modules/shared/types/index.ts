@@ -7,15 +7,7 @@ export interface DataLoaderProps {
   loadingMessage?: string;
   children: React.ReactNode;
 }
-// Delegation types for API
-export interface Delegation {
-  id: number;
-  nombre: string;
-}
 
-export interface NewDelegation {
-  nombre: string;
-}
 /**
  * Interface genérica para servicios CRUD
  */
@@ -131,3 +123,14 @@ export interface HeaderProps {
   sidebarOpen?: boolean;
   setSidebarOpen?: (open: boolean) => void;
 }
+
+export type OperationType = 'all' | 'deposit' | 'withdrawal' | 'transfer_in' | 'transfer_out' | 'payment' | 'refund' | 'fee';
+
+
+export interface TabConfig {
+  id: string;
+  name: string;
+  icon: React.ComponentType<any>;
+}
+
+export type TabType = TabConfig['id'];
